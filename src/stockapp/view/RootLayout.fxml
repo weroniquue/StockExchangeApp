@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="800.0" prefWidth="1280.0" styleClass="tlo" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="background" stylesheets="@style.css" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="51.0" layoutY="29.0" lineSpacing="10.0" prefHeight="142.0" prefWidth="1178.0" styleClass="napis" stylesheets="@style.css" text="StockExchangeApp" textAlignment="CENTER" textFill="#861616">
+               <font>
+                  <Font name="Bernard MT Condensed" size="72.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </top>
+</BorderPane>

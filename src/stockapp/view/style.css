@@ -1,0 +1,12 @@
+.background{
+	-fx-background-color:#EBEDEF ;
+}
+.tlo{
+	
+	-fx-background-image: url("dollarP.png");
+	-fx-background-size: 100% 100%; 
+
+}
+.napis{
+	-fx-color:#861616;
+}
