@@ -26,4 +26,8 @@ public class TabController {
 	public void showIndex() {
 		main.showIndex();
 	}
+	
+	public void showCurrency() {
+		main.showCurrency();
+	}
 }

@@ -10,7 +10,7 @@
 
 <AnchorPane prefHeight="592.0" prefWidth="1280.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stockapp.view.MainPageController">
    <children>
-      <HBox alignment="CENTER" layoutX="54.0" layoutY="89.0" prefHeight="372.0" prefWidth="1173.0" spacing="40.0" AnchorPane.leftAnchor="54.0">
+      <HBox alignment="CENTER" layoutX="54.0" layoutY="89.0" spacing="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Button alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" onAction="#showDetails" prefHeight="273.0" prefWidth="276.0" text="Show" textAlignment="CENTER" textFill="#861616">
                <effect>

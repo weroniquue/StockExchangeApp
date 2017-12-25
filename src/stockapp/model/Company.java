@@ -6,10 +6,12 @@ import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.text.ParseException;
 
-public class Company {
+public class Company extends Thread{
 	private StringProperty companyName;// nazwa spolki
 	private StringProperty dateOfFirstValuation;// data pierwszej wyceny
 	private FloatProperty openiningPrice;// kurs otwarcia
@@ -22,6 +24,8 @@ public class Company {
 	private SimpleFloatProperty initialCapital;// kapital poczatkowy
 	private SimpleIntegerProperty volume;// wolumen
 	private SimpleFloatProperty assetsTurnover;// obrot
+	//private ObservableList<Stock> listOfShares=FXCollections.observableArrayList();
+	
 	private RandomDate randomDate = new RandomDate();
 	Random random = new Random();
 
@@ -153,4 +157,27 @@ public class Company {
 	public String getRandomDate() {
 		return randomDate.toString();
 	}
+	
+	/*public void emitujAkcje() {
+		int ilosc= random.nextInt(20);
+		int cena=5;
+		this.numberOfStock.set(this.numberOfStock.get()+ilosc);
+		for(int i=0;i<ilosc;i++) {
+			listaAkcji.add(new Akcja(this.getName(), null, cena));
+		}
+		System.out.println("Ilosc akcji spolki: "+this.companyName.get()+numberOfStock.get());
+	}
+	
+	@Override
+	public void run() {
+		while(true) {
+			try {
+				Thread.sleep(random.nextInt(10000));
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			emitujAkcje();
+		}
+	}*/
+	
 }

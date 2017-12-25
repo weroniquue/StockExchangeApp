@@ -9,7 +9,7 @@
    <top>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="background" stylesheets="@style.css" BorderPane.alignment="CENTER">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="51.0" layoutY="29.0" lineSpacing="10.0" prefHeight="142.0" prefWidth="1178.0" styleClass="napis" stylesheets="@style.css" text="StockExchangeApp" textAlignment="CENTER" textFill="#861616">
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="51.0" layoutY="29.0" lineSpacing="10.0" prefWidth="1280.0" styleClass="napis" stylesheets="@style.css" text="StockExchangeApp" textAlignment="CENTER" textFill="#861616" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <font>
                   <Font name="Bernard MT Condensed" size="72.0" />
                </font>

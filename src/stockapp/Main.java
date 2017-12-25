@@ -11,9 +11,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import stockapp.model.Company;
+import stockapp.model.Currency;
 import stockapp.view.AddController;
 import stockapp.view.CompanyAddController;
 import stockapp.view.CompanyOverviewController;
+import stockapp.view.CurrencyOverviewController;
 import stockapp.view.MainPageController;
 import stockapp.view.TabController;
 
@@ -25,8 +27,7 @@ public class Main extends Application {
 	
 	
 	private ObservableList<Company> companyData = FXCollections.observableArrayList();
-	// private ObservableList<TreeItem<Index>>
-	// indexData=FXCollections.observableArrayList();
+	ObservableList<Currency> currencyData=FXCollections.observableArrayList();
 
 	public Main() {
 		companyData.add(new Company("Firma sprzatajaca"));
@@ -34,13 +35,16 @@ public class Main extends Application {
 		companyData.add(new Company("Firma 1"));
 		companyData.add(new Company("Firma ble1"));
 		companyData.add(new Company("Firma sprzatajaca2"));
+		
+		currencyData.add(new Currency("Euro","EUR"));
+		currencyData.add(new Currency("Zloty","PLN"));
 	}
 
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("StockExangeApp");
-
+				
 		initRootLayout();
 		showMainPage();
 	}
@@ -94,9 +98,6 @@ public class Main extends Application {
 			TabController controller = loader.getController();
 			controller.setMain(this);
 
-			// Parent pane=FXMLLoader.load(getClass().getResource("view/RootDetails.fxml"));
-			// primaryStage.getScene().setRoot(pane);
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -129,6 +130,21 @@ public class Main extends Application {
 		}
 	}
 
+	public void showCurrency() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("view/CurrencyOverview.fxml"));
+			AnchorPane index = (AnchorPane) loader.load();
+			details.setCenter(index);
+
+			CurrencyOverviewController controller=loader.getController();
+			controller.setMain(this);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void addMenu() {
 
 		try {
@@ -155,33 +171,13 @@ public class Main extends Application {
 		
 	}
 	
-	public void showCompanyAddStage() {
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("view/AddCompanyOverview.fxml"));
-			AnchorPane addCompany=loader.load();
-			
-			Stage addCompanyStage=new Stage();
-			addCompanyStage.setTitle("Add Company");
-			addCompanyStage.initOwner(primaryStage);
-			
-			Scene scene=new Scene(addCompany);
-			addCompanyStage.setScene(scene);
-			
-			CompanyAddController controller=loader.getController();
-			controller.setMain(this);
-			controller.setStage(addCompanyStage);
-			
-			addCompanyStage.showAndWait();
-				
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 
 	public ObservableList<Company> getCompanyData() {
 		return companyData;
+	}
+	
+	public ObservableList<Currency> getCurrencyData(){
+		return currencyData;
 	}
 
 	public Stage getPrimaryStage() {

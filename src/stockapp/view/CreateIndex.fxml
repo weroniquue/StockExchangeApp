@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.141">
+   <children>
+      <VBox alignment="CENTER" prefHeight="600.0" prefWidth="800.0" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label text="Label" />
+            <VBox alignment="CENTER">
+               <children>
+                  <Label text="Label" />
+                  <TextField promptText="Index name">
+                     <VBox.margin>
+                        <Insets left="70.0" right="70.0" />
+                     </VBox.margin>
+                  </TextField>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER">
+               <children>
+                  <Label text="Label" />
+                  <ChoiceBox prefHeight="31.0" prefWidth="441.0" />
+               </children>
+            </VBox>
+            <ListView prefHeight="263.0" prefWidth="730.0">
+               <VBox.margin>
+                  <Insets left="30.0" right="30.0" />
+               </VBox.margin>
+            </ListView>
+            <HBox prefHeight="50.0" prefWidth="800.0" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
