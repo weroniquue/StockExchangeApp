@@ -59,8 +59,7 @@ public class CurrencyOverviewController {
 			whereIsUsed.setItems(currency.getWhereIsUsed());
 			currencyNameLabel.setText(currency.getCurrencyName());
 		}else {
-			currencyNameLabel.setText("Ble");
-			System.out.println("Nie dzila");
+			currencyNameLabel.setText("");
 		}
 	}
 	

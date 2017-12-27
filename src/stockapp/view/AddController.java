@@ -34,7 +34,6 @@ public class AddController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		add.getItems().addAll(chooseList);
-
 	}
 
 	public String getChoice(ChoiceBox<String> choice) {
@@ -103,6 +102,31 @@ public class AddController implements Initializable {
 			e.printStackTrace();
 		}
 	}
+	
+	public void showCreateIndexStage() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(main.getClass().getResource("view/CreateIndex.fxml"));
+			AnchorPane addIndex = loader.load();
+
+			Stage addIndexStage = new Stage();
+			addIndexStage.setTitle("Add Company");
+			addIndexStage.initModality(Modality.WINDOW_MODAL);
+			addIndexStage.initOwner(main.getPrimaryStage());
+
+			Scene scene = new Scene(addIndex);
+			addIndexStage.setScene(scene);
+
+			CreateIndexController controller=loader.getController();
+			controller.setMain(main);
+			controller.setStage(addIndexStage);
+
+			addIndexStage.showAndWait();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void handleOk() {
 		if (add.getValue() == null) {
@@ -114,6 +138,7 @@ public class AddController implements Initializable {
 
 			alert.showAndWait();
 		} else {
+			
 			window.setOpacity(0);
 
 			switch (add.getValue()) {
@@ -121,12 +146,13 @@ public class AddController implements Initializable {
 				showCompanyAddStage();
 				break;
 			case "Index":
-				System.out.println("Ble");
+				showCreateIndexStage();
 				break;
 			case "Stock Exchange":
 				showStockExchangeAddStage();
 				break;
 			default:
+				window.close();
 				break;
 
 			}

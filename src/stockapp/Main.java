@@ -41,6 +41,22 @@ public class Main extends Application {
 
 		currencyData.add(new Currency("Euro", "EUR"));
 		currencyData.add(new Currency("Zloty", "PLN"));
+		
+		StockExchange tmp=new StockExchange();
+		tmp.setNameStockExchange("Warszawska Gie³da papierów wartoœciowych");
+		tmp.setAddressStockExchange("Nowomiejska 56");
+		
+		StockExchange tmp1=new StockExchange();
+		tmp1.setNameStockExchange("Londynska Gie³da papierów wartoœciowych");
+		tmp1.setAddressStockExchange("Nowomiejska 56");
+		
+		StockExchange tmp2=new StockExchange();
+		tmp2.setNameStockExchange("Londynska Gie³da papierów wartoœciowych");
+		tmp2.setAddressStockExchange("Nowomiejska 56");
+		
+		stockExchangeData.add(tmp);
+		stockExchangeData.add(tmp1);
+		stockExchangeData.add(tmp2);
 	}
 
 	@Override
