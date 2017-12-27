@@ -7,5 +7,5 @@ abstract public class Market {
 	private FloatProperty markup;//mar¿a
 	private StringProperty name;
 	
-	public abstract void pobierzmarze();
+	//public abstract void pobierzmarze();
 }

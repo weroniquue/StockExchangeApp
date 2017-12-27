@@ -9,11 +9,12 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import stockapp.model.Company;
 import stockapp.model.Currency;
+import stockapp.model.Index;
 import stockapp.view.AddController;
-import stockapp.view.CompanyAddController;
 import stockapp.view.CompanyOverviewController;
 import stockapp.view.CurrencyOverviewController;
 import stockapp.view.MainPageController;
@@ -27,7 +28,8 @@ public class Main extends Application {
 	
 	
 	private ObservableList<Company> companyData = FXCollections.observableArrayList();
-	ObservableList<Currency> currencyData=FXCollections.observableArrayList();
+	private ObservableList<Currency> currencyData=FXCollections.observableArrayList();
+	private ObservableList<Index> indexData=FXCollections.observableArrayList();
 
 	public Main() {
 		companyData.add(new Company("Firma sprzatajaca"));
@@ -154,6 +156,7 @@ public class Main extends Application {
 
 			Stage addWindow = new Stage();
 			addWindow.setTitle("Add");
+			addWindow.initModality(Modality.WINDOW_MODAL);
 			addWindow.initOwner(primaryStage);
 			addWindow.sizeToScene();
 

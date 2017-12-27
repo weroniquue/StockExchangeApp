@@ -9,6 +9,7 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 
 public class Company extends Thread{
@@ -21,7 +22,7 @@ public class Company extends Thread{
 	private SimpleFloatProperty profit;// zysk
 	private SimpleFloatProperty income;// przychod
 	private SimpleFloatProperty equitalCapital;// kapital wlasny
-	private SimpleFloatProperty initialCapital;// kapital poczatkowy
+	private SimpleFloatProperty initialCapital;// kapital zak³adowy
 	private SimpleIntegerProperty volume;// wolumen
 	private SimpleFloatProperty assetsTurnover;// obrot
 	//private ObservableList<Stock> listOfShares=FXCollections.observableArrayList();
@@ -29,6 +30,12 @@ public class Company extends Thread{
 	private RandomDate randomDate = new RandomDate();
 	Random random = new Random();
 
+	public static float roundToDouble(float d) {
+		BigDecimal bd=new BigDecimal(Float.toString(d));
+		bd=bd.setScale(2,BigDecimal.ROUND_HALF_UP);
+		return bd.floatValue();
+	}
+	
 	public Company(String name) {
 		this.companyName = new SimpleStringProperty(name);
 		try {
@@ -37,12 +44,12 @@ public class Company extends Thread{
 			this.dateOfFirstValuation = new SimpleStringProperty("01.01.2017");
 		}
 
-		this.openiningPrice = new SimpleFloatProperty(1 + random.nextFloat() * (20 - 1));
-		this.currentPrice = new SimpleFloatProperty(1 + random.nextFloat() * (20 - 1) + openiningPrice.get() / 2);
+		this.openiningPrice = new SimpleFloatProperty(roundToDouble(1 + random.nextFloat() * (20 - 1)));
+		this.currentPrice = new SimpleFloatProperty(roundToDouble(1 + random.nextFloat() * (20 - 1) + openiningPrice.get() / 2));
 		this.minimumPrice = new SimpleFloatProperty(1);
 		this.numberOfStock = new SimpleIntegerProperty(random.nextInt(400));
-		this.profit = new SimpleFloatProperty(random.nextFloat() * (40000 - 100) + 100);
-		this.income = new SimpleFloatProperty(random.nextFloat() * (40000 - 100) + 100);
+		this.profit = new SimpleFloatProperty(roundToDouble(random.nextFloat() * (40000 - 100) + 100));
+		this.income = new SimpleFloatProperty(roundToDouble(random.nextFloat() * (40000 - 100) + 100));
 		this.equitalCapital = new SimpleFloatProperty(100000);
 		this.initialCapital = new SimpleFloatProperty(50000);
 		this.volume = new SimpleIntegerProperty(random.nextInt(35));

@@ -14,12 +14,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import stockapp.Main;
 
 public class AddController implements Initializable{
 	
-	ObservableList<String> chooseList=FXCollections.observableArrayList("Company","Index","Currency");
+	ObservableList<String> chooseList=FXCollections.observableArrayList("Company","Currency","Index","Stock Exchange");
 	
 	private Main main;
 	private Stage window;
@@ -63,6 +64,7 @@ public class AddController implements Initializable{
 			
 			Stage addCompanyStage=new Stage();
 			addCompanyStage.setTitle("Add Company");
+			addCompanyStage.initModality(Modality.WINDOW_MODAL);
 			addCompanyStage.initOwner(main.getPrimaryStage());
 			
 			Scene scene=new Scene(addCompany);
@@ -79,7 +81,31 @@ public class AddController implements Initializable{
 			e.printStackTrace();
 		}
 	}
-	
+	public void showStockExchangeAddStage() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(main.getClass().getResource("view/CreateStockExchange.fxml"));
+			AnchorPane addStockExchange=loader.load();
+			
+			Stage addStockExchangeStage=new Stage();
+			addStockExchangeStage.setTitle("Add Company");
+			addStockExchangeStage.initModality(Modality.WINDOW_MODAL);
+			addStockExchangeStage.initOwner(main.getPrimaryStage());
+			
+			Scene scene=new Scene(addStockExchange);
+			addStockExchangeStage.setScene(scene);
+			
+			//CompanyAddController controller=loader.getController();
+			//controller.setMain(main);
+			//controller.setStage(addCompanyStage);
+			
+			addStockExchangeStage.showAndWait();
+				
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	
 	public void handleOk() {
@@ -94,12 +120,16 @@ public class AddController implements Initializable{
 		}
 		else {
 				window.setOpacity(0);
+				
 				switch (add.getValue()) {
 				case "Company":
 					showCompanyAddStage();
 					break;
 				case "Index":
 					System.out.println("Ble");
+					break;
+				case "Stock Exchange":
+					showStockExchangeAddStage();
 					break;
 				default:
 					break;
