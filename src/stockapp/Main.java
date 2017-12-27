@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import stockapp.model.Company;
 import stockapp.model.Currency;
 import stockapp.model.Index;
+import stockapp.model.StockExchange;
 import stockapp.view.AddController;
 import stockapp.view.CompanyOverviewController;
 import stockapp.view.CurrencyOverviewController;
@@ -25,11 +26,11 @@ public class Main extends Application {
 	private Stage primaryStage;
 	private BorderPane rootLayout;
 	private BorderPane details;
-	
-	
+
 	private ObservableList<Company> companyData = FXCollections.observableArrayList();
-	private ObservableList<Currency> currencyData=FXCollections.observableArrayList();
-	private ObservableList<Index> indexData=FXCollections.observableArrayList();
+	private ObservableList<Currency> currencyData = FXCollections.observableArrayList();
+	private ObservableList<Index> indexData = FXCollections.observableArrayList();
+	private ObservableList<StockExchange> stockExchangeData = FXCollections.observableArrayList();
 
 	public Main() {
 		companyData.add(new Company("Firma sprzatajaca"));
@@ -37,16 +38,16 @@ public class Main extends Application {
 		companyData.add(new Company("Firma 1"));
 		companyData.add(new Company("Firma ble1"));
 		companyData.add(new Company("Firma sprzatajaca2"));
-		
-		currencyData.add(new Currency("Euro","EUR"));
-		currencyData.add(new Currency("Zloty","PLN"));
+
+		currencyData.add(new Currency("Euro", "EUR"));
+		currencyData.add(new Currency("Zloty", "PLN"));
 	}
 
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("StockExangeApp");
-				
+
 		initRootLayout();
 		showMainPage();
 	}
@@ -77,7 +78,7 @@ public class Main extends Application {
 			AnchorPane MainPage = (AnchorPane) loader.load();
 
 			rootLayout.setCenter(MainPage);
-			
+
 			MainPageController controller = loader.getController();
 			controller.setMainPage(this);
 
@@ -139,14 +140,14 @@ public class Main extends Application {
 			AnchorPane index = (AnchorPane) loader.load();
 			details.setCenter(index);
 
-			CurrencyOverviewController controller=loader.getController();
+			CurrencyOverviewController controller = loader.getController();
 			controller.setMain(this);
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void addMenu() {
 
 		try {
@@ -162,7 +163,7 @@ public class Main extends Application {
 
 			Scene scene = new Scene(add);
 			addWindow.setScene(scene);
-		
+
 			AddController controller = loader.getController();
 			controller.setMain(this);
 			controller.setStage(addWindow);
@@ -171,16 +172,39 @@ public class Main extends Application {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
 
 	public ObservableList<Company> getCompanyData() {
 		return companyData;
 	}
-	
-	public ObservableList<Currency> getCurrencyData(){
+
+	public void setCompanyData(ObservableList<Company> companyData) {
+		this.companyData = companyData;
+	}
+
+	public ObservableList<Currency> getCurrencyData() {
 		return currencyData;
+	}
+
+	public void setCurrencyData(ObservableList<Currency> currencyData) {
+		this.currencyData = currencyData;
+	}
+
+	public ObservableList<Index> getIndexData() {
+		return indexData;
+	}
+
+	public void setIndexData(ObservableList<Index> indexData) {
+		this.indexData = indexData;
+	}
+
+	public ObservableList<StockExchange> getStockExchangeData() {
+		return stockExchangeData;
+	}
+
+	public void setStockExchangeData(ObservableList<StockExchange> stockExchangeData) {
+		this.stockExchangeData = stockExchangeData;
 	}
 
 	public Stage getPrimaryStage() {

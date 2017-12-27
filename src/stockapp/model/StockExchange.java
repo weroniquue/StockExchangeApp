@@ -1,5 +1,6 @@
 package stockapp.model;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,7 +16,13 @@ public class StockExchange extends Market {
 	private ObservableSet<Company> allCompanyOnThisExchange=FXCollections.observableSet();
 	
 	
-	public StockExchange() {}
+	public StockExchange() {
+		this.nameStockExchange=new SimpleStringProperty();
+		this.countryStockExchange=new SimpleStringProperty();
+		this.currencyStockExchange=new SimpleStringProperty();
+		this.cityStockExchange=new SimpleStringProperty();
+		this.addressStockExchange=new SimpleStringProperty();
+	}
 	
 	
 	public StringProperty getNameStockExchangeProperty() {
@@ -24,6 +31,7 @@ public class StockExchange extends Market {
 	public String getNameStockExchange() {
 		return nameStockExchange.get();
 	}
+	
 	public void setNameStockExchange(String nameStockExchange) {
 		this.nameStockExchange.set(nameStockExchange);
 	}

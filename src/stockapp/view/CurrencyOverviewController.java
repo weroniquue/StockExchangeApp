@@ -2,14 +2,11 @@ package stockapp.view;
 
 import java.io.IOException;
 
-import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
