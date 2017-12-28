@@ -25,7 +25,7 @@
                      <font>
                         <Font name="Bernard MT Condensed" size="20.0" />
                      </font></Label>
-                  <TextField prefHeight="31.0" prefWidth="650.0" promptText="Index name">
+                  <TextField fx:id="nameField" prefHeight="31.0" prefWidth="650.0" promptText="Index name">
                      <VBox.margin>
                         <Insets left="70.0" right="70.0" />
                      </VBox.margin>
@@ -57,7 +57,7 @@
             <HBox alignment="BOTTOM_RIGHT" prefHeight="18.0" prefWidth="800.0" spacing="20.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#handleClose" text="Close" />
-                  <Button mnemonicParsing="false" text="Button" />
+                  <Button mnemonicParsing="false" onAction="#handleSave" text="Save" />
                </children>
                <padding>
                   <Insets right="20.0" />
