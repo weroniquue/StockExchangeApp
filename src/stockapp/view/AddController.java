@@ -19,7 +19,7 @@ import stockapp.Main;
 
 public class AddController implements Initializable {
 
-	ObservableList<String> chooseList = FXCollections.observableArrayList("Company", "Currency", "Index",
+	ObservableList<String> chooseList = FXCollections.observableArrayList("Commodity","Company", "Currency", "Index",
 			"Stock Exchange");
 
 	private Main main;
@@ -127,6 +127,31 @@ public class AddController implements Initializable {
 			e.printStackTrace();
 		}
 	}
+	
+	public void showCreateCommadityStage() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(main.getClass().getResource("view/CreateCommodity.fxml"));
+			AnchorPane addCommodity = loader.load();
+
+			Stage addCommodityStage = new Stage();
+			addCommodityStage.setTitle("Add Commodity");
+			addCommodityStage.initModality(Modality.WINDOW_MODAL);
+			addCommodityStage.initOwner(main.getPrimaryStage());
+
+			Scene scene = new Scene(addCommodity);
+			addCommodityStage.setScene(scene);
+
+			//controller=loader.getController();
+			//controller.setMain(main);
+			//controller.setStage(addCommadityStage);
+
+			addCommodityStage.showAndWait();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void handleOk() {
 		if (add.getValue() == null) {
@@ -142,6 +167,9 @@ public class AddController implements Initializable {
 			window.setOpacity(0);
 
 			switch (add.getValue()) {
+			case "Commodity":
+				showCreateCommadityStage();
+				break;
 			case "Company":
 				showCompanyAddStage();
 				break;
