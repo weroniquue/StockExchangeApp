@@ -31,6 +31,9 @@ public class Index {
 	}
 
 	public float getResultsOfIndex() {
+		for (Company company : companyInIndex) {
+			resultsOfIndex.set(resultsOfIndex.get()+company.getCurrentPrice());
+		}
 		return resultsOfIndex.get();
 	}
 
