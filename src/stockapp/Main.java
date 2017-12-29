@@ -11,6 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import stockapp.model.Commodity;
 import stockapp.model.Company;
 import stockapp.model.Currency;
 import stockapp.model.Index;
@@ -31,6 +32,7 @@ public class Main extends Application {
 	private ObservableList<Currency> currencyData = FXCollections.observableArrayList();
 	private ObservableList<Index> indexData = FXCollections.observableArrayList();
 	private ObservableList<StockExchange> stockExchangeData = FXCollections.observableArrayList();
+	private ObservableList<Commodity> commodityData=FXCollections.observableArrayList();
 
 	public Main() {
 		companyData.add(new Company("Firma sprzatajaca"));
@@ -137,10 +139,10 @@ public class Main extends Application {
 		}
 	}
 
-	public void showIndex() {
+	public void showStockExchange() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("view/IndexOverview.fxml"));
+			loader.setLocation(getClass().getResource("view/StockExchangeOverview.fxml"));
 			AnchorPane index = (AnchorPane) loader.load();
 			details.setCenter(index);
 
@@ -226,4 +228,14 @@ public class Main extends Application {
 	public Stage getPrimaryStage() {
 		return primaryStage;
 	}
+
+	public ObservableList<Commodity> getCommodityData() {
+		return commodityData;
+	}
+
+	public void setCommodityData(ObservableList<Commodity> commodityData) {
+		this.commodityData = commodityData;
+	}
+	
+	
 }

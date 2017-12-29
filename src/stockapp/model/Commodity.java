@@ -29,6 +29,9 @@ public class Commodity {
 	public void setName(String name) {
 		this.name.set(name);
 	}
+	public String getName() {
+		return name.get();
+	}
 
 	public String getMeasurementUnit() {
 		return measurementUnit.get();

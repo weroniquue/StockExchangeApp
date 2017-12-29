@@ -56,4 +56,8 @@ public class Currency {
 	public ObservableList<String> getWhereIsUsed(){
 		return whereIsUsed;
 	}
+	@Override
+	public String toString() {
+		return getCurrencyName();
+	}
 }

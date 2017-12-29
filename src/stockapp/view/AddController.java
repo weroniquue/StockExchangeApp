@@ -142,9 +142,9 @@ public class AddController implements Initializable {
 			Scene scene = new Scene(addCommodity);
 			addCommodityStage.setScene(scene);
 
-			//controller=loader.getController();
-			//controller.setMain(main);
-			//controller.setStage(addCommadityStage);
+			CommodityAddController controller=loader.getController();
+			controller.setMain(main);
+			controller.setStage(addCommodityStage);
 
 			addCommodityStage.showAndWait();
 
@@ -184,8 +184,9 @@ public class AddController implements Initializable {
 				break;
 
 			}
+			window.close();
 		}
-		window.close();
+		
 
 	}
 

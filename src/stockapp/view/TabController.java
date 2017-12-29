@@ -23,8 +23,8 @@ public class TabController {
 		main.showCompany();
 	}
 	
-	public void showIndex() {
-		main.showIndex();
+	public void showStockExchange() {
+		main.showStockExchange();
 	}
 	
 	public void showCurrency() {

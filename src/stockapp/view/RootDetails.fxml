@@ -10,7 +10,7 @@
         <items>
           <Button mnemonicParsing="false" onAction="#backToMenu" text="Menu" />
             <Button mnemonicParsing="false" onAction="#showCompany" text="Company" />
-            <Button mnemonicParsing="false" onAction="#showIndex" text="Index" />
+            <Button mnemonicParsing="false" onAction="#showStockExchange" text="Stock Exchange" />
             <Button mnemonicParsing="false" onAction="#showCurrency" text="Currency" />
             <Button mnemonicParsing="false" text="Button" />
             <Button mnemonicParsing="false" text="Button" />
