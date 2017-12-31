@@ -20,6 +20,7 @@ import stockapp.view.AddController;
 import stockapp.view.CompanyOverviewController;
 import stockapp.view.CurrencyOverviewController;
 import stockapp.view.MainPageController;
+import stockapp.view.StockExchangeOverviewController;
 import stockapp.view.TabController;
 
 public class Main extends Application {
@@ -32,7 +33,7 @@ public class Main extends Application {
 	private ObservableList<Currency> currencyData = FXCollections.observableArrayList();
 	private ObservableList<Index> indexData = FXCollections.observableArrayList();
 	private ObservableList<StockExchange> stockExchangeData = FXCollections.observableArrayList();
-	private ObservableList<Commodity> commodityData=FXCollections.observableArrayList();
+	private ObservableList<Commodity> commodityData = FXCollections.observableArrayList();
 
 	public Main() {
 		companyData.add(new Company("Firma sprzatajaca"));
@@ -43,19 +44,19 @@ public class Main extends Application {
 
 		currencyData.add(new Currency("Euro", "EUR"));
 		currencyData.add(new Currency("Zloty", "PLN"));
-		
-		StockExchange tmp=new StockExchange();
+
+		StockExchange tmp = new StockExchange();
 		tmp.setNameStockExchange("Warszawska Gie³da papierów wartoœciowych");
 		tmp.setAddressStockExchange("Nowomiejska 56");
-		
-		StockExchange tmp1=new StockExchange();
+
+		StockExchange tmp1 = new StockExchange();
 		tmp1.setNameStockExchange("Londynska Gie³da papierów wartoœciowych");
 		tmp1.setAddressStockExchange("Nowomiejska 56");
-		
-		StockExchange tmp2=new StockExchange();
+
+		StockExchange tmp2 = new StockExchange();
 		tmp2.setNameStockExchange("Londynska Gie³da papierów wartoœciowych");
 		tmp2.setAddressStockExchange("Nowomiejska 56");
-		
+
 		stockExchangeData.add(tmp);
 		stockExchangeData.add(tmp1);
 		stockExchangeData.add(tmp2);
@@ -145,6 +146,9 @@ public class Main extends Application {
 			loader.setLocation(getClass().getResource("view/StockExchangeOverview.fxml"));
 			AnchorPane index = (AnchorPane) loader.load();
 			details.setCenter(index);
+
+			//StockExchangeOverviewController controller = loader.load();
+			//controller.setMain(this);
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -236,6 +240,5 @@ public class Main extends Application {
 	public void setCommodityData(ObservableList<Commodity> commodityData) {
 		this.commodityData = commodityData;
 	}
-	
-	
+
 }
