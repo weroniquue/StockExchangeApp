@@ -1,11 +1,21 @@
 package stockapp;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.prefs.Preferences;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -13,6 +23,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import stockapp.model.Commodity;
 import stockapp.model.Company;
+import stockapp.model.CompanyListWrapper;
 import stockapp.model.Currency;
 import stockapp.model.Index;
 import stockapp.model.StockExchange;
@@ -20,6 +31,7 @@ import stockapp.view.AddController;
 import stockapp.view.CompanyOverviewController;
 import stockapp.view.CurrencyOverviewController;
 import stockapp.view.MainPageController;
+import stockapp.view.RootLayoutController;
 import stockapp.view.StockExchangeOverviewController;
 import stockapp.view.TabController;
 
@@ -56,10 +68,23 @@ public class Main extends Application {
 		StockExchange tmp2 = new StockExchange();
 		tmp2.setNameStockExchange("Londynska Gie³da papierów wartoœciowych");
 		tmp2.setAddressStockExchange("Nowomiejska 56");
+		tmp2.setCityStockExchange("Warszawa");
+		tmp2.setCurrencyStockExchange("PLN");
+		
+		Index WIG20=new Index();
+		WIG20.setNameIndex("Wig20");
+		WIG20.getCompanyInIndex().addAll(companyData);
+		tmp2.getListOfIndex().add(WIG20);
+		
+		Index WIG10=new Index();
+		WIG10.setNameIndex("Wig10");
+		WIG10.getCompanyInIndex().addAll(companyData.get(0),companyData.get(2));
+		tmp2.getListOfIndex().add(WIG10);
 
 		stockExchangeData.add(tmp);
 		stockExchangeData.add(tmp1);
 		stockExchangeData.add(tmp2);
+	
 	}
 
 	@Override
@@ -84,10 +109,15 @@ public class Main extends Application {
 			Scene scene = new Scene(rootLayout);
 			primaryStage.setScene(scene);
 			primaryStage.show();
+			
+			RootLayoutController controller=loader.getController();
+			controller.setMain(this);
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		
 	}
 
 	public void showMainPage() {
@@ -242,4 +272,83 @@ public class Main extends Application {
 		this.commodityData = commodityData;
 	}
 
+	public void setDataFilePath(File file) {
+		 Preferences prefs = Preferences.userNodeForPackage(Main.class);
+		    if (file != null) {
+		        prefs.put("filePath", file.getPath());
+
+		        // Update the stage title.
+		        primaryStage.setTitle("StockExchangeApp - " + file.getName());
+		    } else {
+		        prefs.remove("filePath");
+
+		        // Update the stage title.
+		        primaryStage.setTitle("StockExchangeApp");
+		    }
+	}
+	public File getDataFilePath() {
+	    Preferences prefs = Preferences.userNodeForPackage(Main.class);
+	    String filePath = prefs.get("filePath", null);
+	    if (filePath != null) {
+	        return new File(filePath);
+	    } else {
+	        return null;
+	    }
+	}
+	
+	
+	public void saveDataToFile(File file) {
+		try {
+			JAXBContext context = JAXBContext
+	                .newInstance(CompanyListWrapper.class);
+	        Marshaller m = context.createMarshaller();
+	        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+	        
+	        
+	        // Wrapping our person data.
+	        CompanyListWrapper wrapper = new CompanyListWrapper();
+	        wrapper.setCompany(companyData);
+
+	        // Marshalling and saving XML to the file.
+	        m.marshal(wrapper, file);
+
+	        // Save the file path to the registry.
+	        setDataFilePath(file);
+	    } catch (Exception e) { // catches ANY exception
+	        Alert alert = new Alert(AlertType.ERROR);
+	        alert.setTitle("Error");
+	        alert.setHeaderText("Could not save data");
+	        alert.setContentText("Could not save data to file:\n" + file.getPath());
+
+	        alert.showAndWait();
+	    }
+	}
+	
+	public void loadDataFromFile(File file) {
+	    try {
+	        JAXBContext context = JAXBContext
+	                .newInstance(CompanyListWrapper.class);
+	        Unmarshaller um = context.createUnmarshaller();
+
+	        // Reading XML from the file and unmarshalling.
+	        CompanyListWrapper wrapper = (CompanyListWrapper) um.unmarshal(file);
+
+	        companyData.clear();
+	        companyData.addAll(wrapper.getCompany());
+
+	        System.out.println();
+	        // Save the file path to the registry.
+	        setDataFilePath(file);
+
+	    } catch (Exception e) { // catches ANY exception
+	        Alert alert = new Alert(AlertType.ERROR);
+	        alert.setTitle("Error");
+	        alert.setHeaderText("Could not load data");
+	        alert.setContentText("Could not load data from file:\n" + file.getPath());
+
+	        alert.showAndWait();
+	    }
+	}
+	
+	
 }

@@ -1,6 +1,8 @@
 package stockapp.model;
 
 import javafx.beans.property.FloatProperty;
+import javafx.beans.property.SimpleFloatProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,6 +12,11 @@ public class Index {
 	private ObservableList<Company> companyInIndex = FXCollections.observableArrayList();
 	private FloatProperty resultsOfIndex;
 
+	public Index() {
+		nameIndex=new SimpleStringProperty();
+		resultsOfIndex=new SimpleFloatProperty();
+	}
+	
 	public StringProperty getNameIndexProperty() {
 		return nameIndex;
 	}

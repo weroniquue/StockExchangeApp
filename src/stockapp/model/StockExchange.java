@@ -4,7 +4,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableSet;
 
 public class StockExchange extends Market {
 	private StringProperty nameStockExchange;
@@ -13,7 +12,7 @@ public class StockExchange extends Market {
 	private StringProperty cityStockExchange;
 	private StringProperty addressStockExchange;
 	private ObservableList<Index> listOfIndex=FXCollections.observableArrayList();
-	private ObservableSet<Company> allCompanyOnThisExchange=FXCollections.observableSet();
+	//private ObservableSet<Company> allCompanyOnThisExchange=FXCollections.observableSet();
 	
 	
 	public StockExchange() {
@@ -66,17 +65,13 @@ public class StockExchange extends Market {
 	public void setListOfIndex(ObservableList<Index> listOfIndex) {
 		this.listOfIndex = listOfIndex;
 	}
-	public ObservableSet<Company> getAllCompanyOnThisExchange() {
+	/*public ObservableSet<Company> getAllCompanyOnThisExchange() {
 		return allCompanyOnThisExchange;
 	}
 	public void setAllCompanyOnThisExchange(ObservableSet<Company> allCompanyOnThisExchange) {
 		this.allCompanyOnThisExchange = allCompanyOnThisExchange;
-	}
-	
-	@Override
-	public String toString() {
-		return nameStockExchange.get();
-	}
+	}*/
+
 	
 	
 }

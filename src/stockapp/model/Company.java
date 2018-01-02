@@ -1,16 +1,20 @@
 package stockapp.model;
 
 import java.util.Random;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import javafx.beans.property.FloatProperty;
 import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-
-
 import java.math.BigDecimal;
 import java.text.ParseException;
 
+
+@XmlRootElement(name="company")
 public class Company extends Thread{
 	private StringProperty companyName;// nazwa spolki
 	private StringProperty dateOfFirstValuation;// data pierwszej wyceny
@@ -60,6 +64,7 @@ public class Company extends Thread{
 		this(null);
 	}
 
+	@XmlElement(name="companyName")
 	public String getCompanyName() {
 		return companyName.get();
 	}
@@ -71,7 +76,8 @@ public class Company extends Thread{
 	public void setCompanyName(String companyName) {
 		this.companyName.set(companyName);
 	}
-
+	
+	@XmlElement(name="dateOfFirstValuation")
 	public String getDateOfFirstValuation() {
 		return dateOfFirstValuation.get();
 	}
@@ -80,6 +86,7 @@ public class Company extends Thread{
 		this.dateOfFirstValuation.set(dateOfFirstValuation);
 	}
 
+	@XmlElement(name="openingPrice")
 	public float getOpeniningPrice() {
 		return openiningPrice.get();
 	}
@@ -87,7 +94,8 @@ public class Company extends Thread{
 	public void setOpeniningPrice(float openiningPrice) {
 		this.openiningPrice.set(openiningPrice);
 	}
-
+	
+	@XmlElement(name="currentPrice")
 	public float getCurrentPrice() {
 		return currentPrice.get();
 	}
@@ -96,6 +104,7 @@ public class Company extends Thread{
 		this.currentPrice.set(currentPrice);
 	}
 
+	@XmlElement(name="minimumPrice")
 	public float getMinimumPrice() {
 		return minimumPrice.get();
 	}
@@ -104,6 +113,7 @@ public class Company extends Thread{
 		this.minimumPrice.set(minimumPrice);
 	}
 
+	@XmlElement(name="numberOfStock")
 	public int getNumberOfStock() {
 		return numberOfStock.get();
 	}
@@ -112,6 +122,7 @@ public class Company extends Thread{
 		this.numberOfStock.set(numberOfStock);
 	}
 
+	@XmlElement(name="profit")
 	public float getProfit() {
 		return profit.get();
 	}
@@ -120,6 +131,7 @@ public class Company extends Thread{
 		this.profit.set(profit);
 	}
 
+	@XmlElement(name="income")
 	public float getIncome() {
 		return income.get();
 	}
@@ -128,6 +140,7 @@ public class Company extends Thread{
 		this.income.set(income);
 	}
 
+	@XmlElement(name="equitalCapital")
 	public float getEquitalCapital() {
 		return equitalCapital.get();
 	}
@@ -136,6 +149,7 @@ public class Company extends Thread{
 		this.equitalCapital.set(equitalCapital);
 	}
 
+	@XmlElement(name="initialCapital")
 	public float getInitialCapital() {
 		return initialCapital.get();
 	}
@@ -144,6 +158,7 @@ public class Company extends Thread{
 		this.initialCapital.set(initialCapital);
 	}
 
+	@XmlElement(name="volume")
 	public int getVolume() {
 		return volume.get();
 	}
@@ -152,6 +167,7 @@ public class Company extends Thread{
 		this.volume.set(volume);
 	}
 
+	@XmlElement(name="assetsTurnover")
 	public float getAssetsTurnover() {
 		return assetsTurnover.get();
 	}
@@ -160,9 +176,7 @@ public class Company extends Thread{
 		this.assetsTurnover.set(assetsTurnover);
 	}
 
-	public String getRandomDate() {
-		return randomDate.toString();
-	}
+
 	
 	/*public void emitujAkcje() {
 		int ilosc= random.nextInt(20);
