@@ -144,11 +144,12 @@ public class Main extends Application {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("view/StockExchangeOverview.fxml"));
-			AnchorPane index = (AnchorPane) loader.load();
-			details.setCenter(index);
+			AnchorPane stockExchange= (AnchorPane) loader.load();
+			details.setCenter(stockExchange);
 
-			//StockExchangeOverviewController controller = loader.load();
-			//controller.setMain(this);
+			StockExchangeOverviewController controller=loader.getController();
+			controller.setMain(this);
+			
 
 		} catch (IOException e) {
 			e.printStackTrace();

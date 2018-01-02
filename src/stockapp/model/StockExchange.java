@@ -73,7 +73,10 @@ public class StockExchange extends Market {
 		this.allCompanyOnThisExchange = allCompanyOnThisExchange;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return nameStockExchange.get();
+	}
 	
 	
 }
