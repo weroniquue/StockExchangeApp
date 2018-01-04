@@ -1,18 +1,24 @@
 package stockapp.model;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class StockExchange extends Market {
-	private StringProperty nameStockExchange;
-	private StringProperty countryStockExchange;
-	private StringProperty currencyStockExchange;
-	private StringProperty cityStockExchange;
-	private StringProperty addressStockExchange;
-	private ObservableList<Index> listOfIndex=FXCollections.observableArrayList();
-	//private ObservableSet<Company> allCompanyOnThisExchange=FXCollections.observableSet();
+public class StockExchange extends Market implements Serializable{
+	transient private StringProperty nameStockExchange;
+	transient private StringProperty countryStockExchange;
+	transient private StringProperty currencyStockExchange;
+	transient private StringProperty cityStockExchange;
+	transient private StringProperty addressStockExchange;
+	transient private ObservableList<Index> listOfIndex=FXCollections.observableArrayList();
 	
 	
 	public StockExchange() {
@@ -65,12 +71,34 @@ public class StockExchange extends Market {
 	public void setListOfIndex(ObservableList<Index> listOfIndex) {
 		this.listOfIndex = listOfIndex;
 	}
-	/*public ObservableSet<Company> getAllCompanyOnThisExchange() {
-		return allCompanyOnThisExchange;
+	
+	private void writeObject(ObjectOutputStream oos) {
+		try {
+			oos.defaultWriteObject();
+			oos.writeObject(nameStockExchange.get());
+			oos.writeObject(countryStockExchange.get());
+			oos.writeObject(currencyStockExchange.get());
+			oos.writeObject(cityStockExchange.get());
+			oos.writeObject(addressStockExchange.get());
+			oos.writeObject(new ArrayList<Index>(listOfIndex));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
-	public void setAllCompanyOnThisExchange(ObservableSet<Company> allCompanyOnThisExchange) {
-		this.allCompanyOnThisExchange = allCompanyOnThisExchange;
-	}*/
+
+	private void readObject(ObjectInputStream ois) {
+		try {
+			ois.defaultReadObject();
+			nameStockExchange=new SimpleStringProperty((String) ois.readObject());
+			countryStockExchange=new SimpleStringProperty((String) ois.readObject());
+			currencyStockExchange=new SimpleStringProperty((String) ois.readObject());
+			cityStockExchange=new SimpleStringProperty((String) ois.readObject());
+			addressStockExchange=new SimpleStringProperty((String) ois.readObject());
+			List<Index> listindex = (List<Index>) ois.readObject();
+			this.setListOfIndex(FXCollections.observableArrayList(listindex));
+		} catch (ClassNotFoundException | IOException e) {}
+
+	}
 
 	
 	

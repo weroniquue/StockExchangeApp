@@ -19,8 +19,8 @@ import stockapp.Main;
 
 public class AddController implements Initializable {
 
-	ObservableList<String> chooseList = FXCollections.observableArrayList("Commodity","Company", "Currency", "Index",
-			"Stock Exchange");
+	ObservableList<String> chooseList = FXCollections.observableArrayList("Commodity", "Company", "Currency", "Index",
+			"Investment Fund", "Investor", "Stock Exchange");
 
 	private Main main;
 	private Stage window;
@@ -92,7 +92,7 @@ public class AddController implements Initializable {
 			Scene scene = new Scene(addStockExchange);
 			addStockExchangeStage.setScene(scene);
 
-			AddStockExchangeController controller=loader.getController();
+			AddStockExchangeController controller = loader.getController();
 			controller.setMain(main);
 			controller.setStage(addStockExchangeStage);
 
@@ -102,7 +102,7 @@ public class AddController implements Initializable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void showCreateIndexStage() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -117,7 +117,7 @@ public class AddController implements Initializable {
 			Scene scene = new Scene(addIndex);
 			addIndexStage.setScene(scene);
 
-			CreateIndexController controller=loader.getController();
+			CreateIndexController controller = loader.getController();
 			controller.setMain(main);
 			controller.setStage(addIndexStage);
 
@@ -127,7 +127,7 @@ public class AddController implements Initializable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void showCreateCommadityStage() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -142,11 +142,36 @@ public class AddController implements Initializable {
 			Scene scene = new Scene(addCommodity);
 			addCommodityStage.setScene(scene);
 
-			CommodityAddController controller=loader.getController();
+			CommodityAddController controller = loader.getController();
 			controller.setMain(main);
 			controller.setStage(addCommodityStage);
 
 			addCommodityStage.showAndWait();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void showAddInvestorStage() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(main.getClass().getResource("view/addInvestor.fxml"));
+			AnchorPane addInvestor = loader.load();
+
+			Stage addInvestorStage = new Stage();
+			addInvestorStage.setTitle("Add Commodity");
+			addInvestorStage.initModality(Modality.WINDOW_MODAL);
+			addInvestorStage.initOwner(main.getPrimaryStage());
+
+			Scene scene = new Scene(addInvestor);
+			addInvestorStage.setScene(scene);
+
+			AddInvestorController controller = loader.getController();
+			controller.setMain(main);
+			controller.setStage(addInvestorStage);
+
+			addInvestorStage.showAndWait();
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -163,7 +188,7 @@ public class AddController implements Initializable {
 
 			alert.showAndWait();
 		} else {
-			
+
 			window.setOpacity(0);
 
 			switch (add.getValue()) {
@@ -179,6 +204,8 @@ public class AddController implements Initializable {
 			case "Stock Exchange":
 				showStockExchangeAddStage();
 				break;
+			case "Investor":
+				showAddInvestorStage();
 			default:
 				window.close();
 				break;
@@ -186,7 +213,6 @@ public class AddController implements Initializable {
 			}
 			window.close();
 		}
-		
 
 	}
 

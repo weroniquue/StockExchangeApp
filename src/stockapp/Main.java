@@ -1,13 +1,17 @@
 package stockapp;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.prefs.Preferences;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -23,9 +27,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import stockapp.model.Commodity;
 import stockapp.model.Company;
-import stockapp.model.CompanyListWrapper;
 import stockapp.model.Currency;
 import stockapp.model.Index;
+import stockapp.model.InvestmentFund;
+import stockapp.model.Investor;
 import stockapp.model.StockExchange;
 import stockapp.view.AddController;
 import stockapp.view.CompanyOverviewController;
@@ -46,45 +51,10 @@ public class Main extends Application {
 	private ObservableList<Index> indexData = FXCollections.observableArrayList();
 	private ObservableList<StockExchange> stockExchangeData = FXCollections.observableArrayList();
 	private ObservableList<Commodity> commodityData = FXCollections.observableArrayList();
+	private ObservableList<Investor> investorData = FXCollections.observableArrayList();
+	private ObservableList<InvestmentFund> investmentFoundData = FXCollections.observableArrayList();
 
 	public Main() {
-		companyData.add(new Company("Firma sprzatajaca"));
-		companyData.add(new Company("Firma ble"));
-		companyData.add(new Company("Firma 1"));
-		companyData.add(new Company("Firma ble1"));
-		companyData.add(new Company("Firma sprzatajaca2"));
-
-		currencyData.add(new Currency("Euro", "EUR"));
-		currencyData.add(new Currency("Zloty", "PLN"));
-
-		StockExchange tmp = new StockExchange();
-		tmp.setNameStockExchange("Warszawska Gie³da papierów wartoœciowych");
-		tmp.setAddressStockExchange("Nowomiejska 56");
-
-		StockExchange tmp1 = new StockExchange();
-		tmp1.setNameStockExchange("Londynska Gie³da papierów wartoœciowych");
-		tmp1.setAddressStockExchange("Nowomiejska 56");
-
-		StockExchange tmp2 = new StockExchange();
-		tmp2.setNameStockExchange("Londynska Gie³da papierów wartoœciowych");
-		tmp2.setAddressStockExchange("Nowomiejska 56");
-		tmp2.setCityStockExchange("Warszawa");
-		tmp2.setCurrencyStockExchange("PLN");
-		
-		Index WIG20=new Index();
-		WIG20.setNameIndex("Wig20");
-		WIG20.getCompanyInIndex().addAll(companyData);
-		tmp2.getListOfIndex().add(WIG20);
-		
-		Index WIG10=new Index();
-		WIG10.setNameIndex("Wig10");
-		WIG10.getCompanyInIndex().addAll(companyData.get(0),companyData.get(2));
-		tmp2.getListOfIndex().add(WIG10);
-
-		stockExchangeData.add(tmp);
-		stockExchangeData.add(tmp1);
-		stockExchangeData.add(tmp2);
-	
 	}
 
 	@Override
@@ -109,15 +79,14 @@ public class Main extends Application {
 			Scene scene = new Scene(rootLayout);
 			primaryStage.setScene(scene);
 			primaryStage.show();
-			
-			RootLayoutController controller=loader.getController();
+
+			RootLayoutController controller = loader.getController();
 			controller.setMain(this);
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
+
 	}
 
 	public void showMainPage() {
@@ -174,12 +143,11 @@ public class Main extends Application {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("view/StockExchangeOverview.fxml"));
-			AnchorPane stockExchange= (AnchorPane) loader.load();
+			AnchorPane stockExchange = (AnchorPane) loader.load();
 			details.setCenter(stockExchange);
 
-			StockExchangeOverviewController controller=loader.getController();
+			StockExchangeOverviewController controller = loader.getController();
 			controller.setMain(this);
-			
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -272,83 +240,114 @@ public class Main extends Application {
 		this.commodityData = commodityData;
 	}
 
-	public void setDataFilePath(File file) {
-		 Preferences prefs = Preferences.userNodeForPackage(Main.class);
-		    if (file != null) {
-		        prefs.put("filePath", file.getPath());
-
-		        // Update the stage title.
-		        primaryStage.setTitle("StockExchangeApp - " + file.getName());
-		    } else {
-		        prefs.remove("filePath");
-
-		        // Update the stage title.
-		        primaryStage.setTitle("StockExchangeApp");
-		    }
+	public ObservableList<Investor> getInvestorData() {
+		return investorData;
 	}
-	public File getDataFilePath() {
-	    Preferences prefs = Preferences.userNodeForPackage(Main.class);
-	    String filePath = prefs.get("filePath", null);
-	    if (filePath != null) {
-	        return new File(filePath);
-	    } else {
-	        return null;
-	    }
+
+	public void setInvestorData(ObservableList<Investor> investorData) {
+		this.investorData = investorData;
 	}
-	
-	
-	public void saveDataToFile(File file) {
+
+	public ObservableList<InvestmentFund> getInvestmentFundData() {
+		return investmentFoundData;
+	}
+
+	public void setInvestmentFundData(ObservableList<InvestmentFund> investmentFundData) {
+		this.investmentFoundData = investmentFundData;
+	}
+
+	public void saveDataToFile(String filePath) {
 		try {
-			JAXBContext context = JAXBContext
-	                .newInstance(CompanyListWrapper.class);
-	        Marshaller m = context.createMarshaller();
-	        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-	        
-	        
-	        // Wrapping our person data.
-	        CompanyListWrapper wrapper = new CompanyListWrapper();
-	        wrapper.setCompany(companyData);
+			ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(filePath)));
 
-	        // Marshalling and saving XML to the file.
-	        m.marshal(wrapper, file);
+			out.writeObject(new ArrayList<Company>(this.getCompanyData()));
+			out.writeObject(new ArrayList<Currency>(this.getCurrencyData()));
+			out.writeObject(new ArrayList<Index>(this.getIndexData()));
+			out.writeObject(new ArrayList<StockExchange>(this.getStockExchangeData()));
+			out.close();
 
-	        // Save the file path to the registry.
-	        setDataFilePath(file);
-	    } catch (Exception e) { // catches ANY exception
-	        Alert alert = new Alert(AlertType.ERROR);
-	        alert.setTitle("Error");
-	        alert.setHeaderText("Could not save data");
-	        alert.setContentText("Could not save data to file:\n" + file.getPath());
+		} catch (FileNotFoundException e) {
 
-	        alert.showAndWait();
-	    }
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText("Could not save data");
+			alert.setContentText("Could not save data to file:\n" + filePath);
+
+			alert.showAndWait();
+		} catch (IOException e) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText("Could not save data");
+			alert.setContentText("Could not save data to file:\n" + filePath);
+
+			alert.showAndWait();
+		}
 	}
-	
+
 	public void loadDataFromFile(File file) {
-	    try {
-	        JAXBContext context = JAXBContext
-	                .newInstance(CompanyListWrapper.class);
-	        Unmarshaller um = context.createUnmarshaller();
-
-	        // Reading XML from the file and unmarshalling.
-	        CompanyListWrapper wrapper = (CompanyListWrapper) um.unmarshal(file);
-
-	        companyData.clear();
-	        companyData.addAll(wrapper.getCompany());
-
-	        System.out.println();
-	        // Save the file path to the registry.
-	        setDataFilePath(file);
-
-	    } catch (Exception e) { // catches ANY exception
-	        Alert alert = new Alert(AlertType.ERROR);
-	        alert.setTitle("Error");
-	        alert.setHeaderText("Could not load data");
-	        alert.setContentText("Could not load data from file:\n" + file.getPath());
-
-	        alert.showAndWait();
-	    }
+		try {
+			ObjectInputStream in = new ObjectInputStream(
+			        new BufferedInputStream(
+			          new FileInputStream(file.getPath())));
+			
+			List<Company> list=(List<Company>) in.readObject();
+			this.setCompanyData(FXCollections.observableArrayList(list));
+			List<Currency> listCurrency=(List<Currency>) in.readObject();
+			this.setCurrencyData(FXCollections.observableArrayList(listCurrency));
+			List<Index> listIndex=(List<Index>) in.readObject();
+			this.setIndexData(FXCollections.observableArrayList(listIndex));
+			List<StockExchange> listStockExchange=(List<StockExchange>) in.readObject();
+			this.setStockExchangeData(FXCollections.observableArrayList(listStockExchange));
+			
+			
+			
+			setFilePath(file);
+		} catch (FileNotFoundException e) {
+		} catch (IOException e) {
+		} catch (ClassNotFoundException e) {
+		} 
 	}
 	
+	public File getfilePath() {
+		Preferences prefs=Preferences.userNodeForPackage(Main.class);
+		String filePath=prefs.get("filePath", null);
+		if(filePath!=null) {
+			return new File(filePath);
+		}else {
+			return null;
+		}
+	}
 	
+	public void setFilePath(File file) {
+		Preferences prefs=Preferences.userNodeForPackage(Main.class);
+		if(file !=null) {
+			prefs.put("filePath", file.getPath());
+			primaryStage.setTitle("StockExchangeApp-"+file.getName());
+		}else {
+			prefs.remove("filePath");
+			
+			primaryStage.setTitle("StockExchngeApp");
+		}
+	}
 }
+
+/*
+ * public void loadDataFromFile(File file) { try { JAXBContext context =
+ * JAXBContext .newInstance(CompanyListWrapper.class); Unmarshaller um =
+ * context.createUnmarshaller();
+ * 
+ * // Reading XML from the file and unmarshalling. CompanyListWrapper wrapper =
+ * (CompanyListWrapper) um.unmarshal(file);
+ * 
+ * companyData.clear(); companyData.addAll(wrapper.getCompany());
+ * 
+ * System.out.println(); // Save the file path to the registry.
+ * setDataFilePath(file);
+ * 
+ * } catch (Exception e) { // catches ANY exception Alert alert = new
+ * Alert(AlertType.ERROR); alert.setTitle("Error");
+ * alert.setHeaderText("Could not load data");
+ * alert.setContentText("Could not load data from file:\n" + file.getPath());
+ * 
+ * alert.showAndWait(); } }
+ */

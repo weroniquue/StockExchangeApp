@@ -77,17 +77,22 @@ public class CreateIndexController {
 	public void handleSave() {
 		if (isValid()) {
 			Index tmp=new Index();
+			tmp.setNameIndex(nameField.getText());
 			tmp.getCompanyInIndex().addAll(companyList.getSelectionModel().getSelectedItems());
 			stockExchangeBox.getSelectionModel().getSelectedItem().getListOfIndex().add(tmp);
 			
+			stage.close();
+			
 			Alert alert=new Alert(AlertType.INFORMATION);
+			alert.initOwner(main.getPrimaryStage());
 			alert.setTitle("Create Index");
 			alert.setHeaderText("Create index");
 			alert.setContentText("The index is created properly");
-			
-			stage.close();
+
+			alert.showAndWait();
 
 		}
+		
 	}
 
 	private boolean isValid() {

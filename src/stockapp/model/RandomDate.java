@@ -1,11 +1,12 @@
 package stockapp.model;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Random;
 
-public class RandomDate {
+public class RandomDate implements Serializable {
 	Random random=new Random();
 	SimpleDateFormat sdf= new SimpleDateFormat("dd.MM.yyyy");
 	Calendar cal=Calendar.getInstance();
