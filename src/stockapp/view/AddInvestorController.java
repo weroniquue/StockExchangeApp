@@ -48,6 +48,7 @@ public class AddInvestorController {
 			tmp.setNumberPESEL(PESEL.getText());
 			tmp.setBudget(Double.parseDouble(budget.getText()));
 			
+			tmp.start();
 			main.getInvestorData().add(tmp);
 			
 			stage.close();

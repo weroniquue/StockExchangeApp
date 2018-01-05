@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.FloatProperty;
@@ -14,6 +15,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
+import stockapp.Main;
 
 public class Investor extends Thread implements Serializable {
 
@@ -47,6 +49,10 @@ public class Investor extends Thread implements Serializable {
 		return secondNameInvestor.get();
 	}
 
+	public StringProperty getSecondNameInvestorProperty() {
+		return secondNameInvestor;
+	}
+	
 	public void setSecondNameInvestor(String secondNameInvestor) {
 		this.secondNameInvestor.set(secondNameInvestor);
 	}
@@ -61,6 +67,9 @@ public class Investor extends Thread implements Serializable {
 
 	public Double getBudget() {
 		return budget.get();
+	}
+	public DoubleProperty getBudgetProperty() {
+		return budget;
 	}
 
 	public void setBudget(Double budget) {
@@ -96,6 +105,30 @@ public class Investor extends Thread implements Serializable {
 		double ranodmBudget= Math.round(random.nextFloat()*500*100)/100.0;
 		synchronized (this) {
 			budget.set(budget.get()+ranodmBudget);
+		}
+		System.out.println("Nowy buzet: "+budget.get());
+	}
+	
+	public void wydajpieniadze() {
+		int i=5;
+		synchronized (new Object()) {
+			budget.set(budget.get()-i);
+		}
+		System.out.println("Wydano 5zl. Budzet: "+budget.get());
+	}
+	
+	@Override
+	public void run() {
+		while (Main.start) {
+			increaseBudget();
+			wydajpieniadze();
+			try {
+				Thread.sleep(10000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 	}
 	

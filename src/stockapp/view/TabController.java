@@ -68,8 +68,8 @@ public class TabController {
 			AnchorPane investor = (AnchorPane) loader.load();
 			main.getDetails().setCenter(investor);
 
-			//InvestorOverviewController controller = loader.getController();
-			//controller.setMain(main);
+			InvestorOverviewController controller = loader.getController();
+			controller.setMain(main);
 
 		} catch (IOException e) {
 			e.printStackTrace();

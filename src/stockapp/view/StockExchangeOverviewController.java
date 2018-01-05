@@ -1,5 +1,9 @@
 package stockapp.view;
 
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -41,6 +45,13 @@ public class StockExchangeOverviewController {
 	private Label addressLabel;
 	@FXML
 	private Label cityLabel;
+	@FXML
+	private LineChart<?,?> linechart;
+	@FXML
+	private CategoryAxis x;
+	@FXML
+	private NumberAxis y;
+	
 
 	private StringConverter<Index> converter;
 
@@ -85,6 +96,7 @@ public class StockExchangeOverviewController {
 				return cell;
 			}
 		});
+		
 	}
 
 	public void showDetailsAboutStockExchange(StockExchange stockExchange) {
@@ -106,29 +118,11 @@ public class StockExchangeOverviewController {
 	public void drawGraph(Index index) {
 		if (index != null) {
 			listCompany.setItems(index.getCompanyInIndex());
+			
+			
 		}
 
 	}
-	/*
-	 * int selectedIndex = companyTable.getSelectionModel().getSelectedIndex(); if
-	 * (selectedIndex >= 0) { Alert alert = new Alert(AlertType.CONFIRMATION);
-	 * alert.setTitle("Delete"); alert.setHeaderText("Are you sure?");
-	 * alert.setContentText("Do you want to delete choosing company?");
-	 * 
-	 * ButtonType buttonYes = new ButtonType("Yes"); ButtonType buttonNo = new
-	 * ButtonType("No");
-	 * 
-	 * alert.getButtonTypes().setAll(buttonYes, buttonNo);
-	 * 
-	 * Optional<ButtonType> result = alert.showAndWait(); if (result.get() ==
-	 * buttonYes) { companyTable.getItems().remove(selectedIndex); } } else { Alert
-	 * alert = new Alert(AlertType.WARNING);
-	 * alert.initOwner(main.getPrimaryStage()); alert.setTitle("No selection");
-	 * alert.setHeaderText("No company selected");
-	 * alert.setContentText("Please select company in the table");
-	 * 
-	 * alert.showAndWait(); } }
-	 */
 
 	public void handeDeleteIndex() {
 		if (stockExchangeTable.getSelectionModel().getSelectedIndex() >= 0) {

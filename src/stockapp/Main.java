@@ -11,11 +11,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.prefs.Preferences;
-
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -25,6 +27,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import stockapp.model.Commodity;
 import stockapp.model.Company;
 import stockapp.model.Currency;
@@ -34,11 +37,8 @@ import stockapp.model.Investor;
 import stockapp.model.StockExchange;
 import stockapp.view.AddController;
 import stockapp.view.CompanyOverviewController;
-import stockapp.view.CurrencyOverviewController;
-import stockapp.view.InvestorOverviewController;
 import stockapp.view.MainPageController;
 import stockapp.view.RootLayoutController;
-import stockapp.view.StockExchangeOverviewController;
 import stockapp.view.TabController;
 
 public class Main extends Application {
@@ -46,6 +46,9 @@ public class Main extends Application {
 	private Stage primaryStage;
 	private BorderPane rootLayout;
 	private BorderPane details;
+
+	static public boolean start = true;
+	static public int time = 8;
 
 	private ObservableList<Company> companyData = FXCollections.observableArrayList();
 	private ObservableList<Currency> currencyData = FXCollections.observableArrayList();
@@ -55,17 +58,42 @@ public class Main extends Application {
 	private ObservableList<Investor> investorData = FXCollections.observableArrayList();
 	private ObservableList<InvestmentFund> investmentFoundData = FXCollections.observableArrayList();
 
+	Timer myTimer = new Timer();
+	TimerTask task = new TimerTask() {
+
+		@Override
+		public void run() {
+			if (time < 17) {
+				time++;
+			} else {
+				time = 8;
+			}
+			System.out.println(time);
+		}
+	};
+
 	public Main() {
-		
 	}
 
 	@Override
 	public void start(Stage primaryStage) {
+
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("StockExangeApp");
 
 		initRootLayout();
 		showMainPage();
+
+		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+			@Override
+			public void handle(WindowEvent event) {
+				start = false;
+				myTimer.cancel();
+
+			}
+		});
+		myTimer.scheduleAtFixedRate(task, 0, 1000 * 60);
 	}
 
 	public static void main(String[] args) {
@@ -289,6 +317,16 @@ public class Main extends Application {
 			this.setInvestmentFundData(FXCollections.observableArrayList(listInvestmentFund));
 
 			setFilePath(file);
+
+			for (Company company : companyData) {
+				company.start();
+			}
+			for (InvestmentFund investmentFund : investmentFoundData) {
+				investmentFund.start();
+			}
+			for (Investor investor : investorData) {
+				investor.start();
+			}
 
 		} catch (FileNotFoundException e) {
 		} catch (IOException e) {
