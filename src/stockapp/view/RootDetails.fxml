@@ -12,8 +12,8 @@
             <Button mnemonicParsing="false" onAction="#showCompany" text="Company" />
             <Button mnemonicParsing="false" onAction="#showStockExchange" text="Stock Exchange" />
             <Button mnemonicParsing="false" onAction="#showCurrency" text="Currency" />
-            <Button mnemonicParsing="false" text="Button" />
-            <Button mnemonicParsing="false" text="Button" />
+            <Button mnemonicParsing="false" onAction="#showInvestor" text="Investor" />
+            <Button mnemonicParsing="false" text="Investment Fund" />
         </items>
       </ToolBar>
    </top>

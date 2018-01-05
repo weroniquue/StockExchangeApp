@@ -11,6 +11,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import stockapp.Main;
+import stockapp.model.Commodity;
 import stockapp.model.Currency;
 public class CommodityAddController {
 	@FXML
@@ -37,7 +38,7 @@ public class CommodityAddController {
 		StringConverter<Currency> converter = new StringConverter<Currency>() {
 			@Override
 			public String toString(Currency item) {
-				return item.getCurrencyName();
+				return item.getNameCurrency();
 			}
 
 			@Override
@@ -63,9 +64,24 @@ public class CommodityAddController {
 
 	public void handleSave() {
 		if (isValid()) {
-			System.out.println("vbjvcc");
+			Commodity tmp=new Commodity();
+			tmp.setName(nameField.getText());
+			tmp.setMeasurementUnit(measurementsUnitField.getText());
+			tmp.setCurrency(currencyChoiceBox.getValue());
+			tmp.setCurrentPrice(Double.parseDouble(currentPriceField.getText()));
+			tmp.setMinimalPrice(Double.parseDouble(minimalPriceField.getText()));
+			tmp.setMaximalPrice(Double.parseDouble(maximalPriceField.getText()));
 			
+			main.getCommodityData().add(tmp);
+	
 			stage.close();
+			
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.initOwner(main.getPrimaryStage());
+			alert.setTitle("Completed");
+			alert.setHeaderText("Commodity added");
+
+			alert.showAndWait();
 		}
 	}
 

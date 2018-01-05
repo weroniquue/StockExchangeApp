@@ -19,6 +19,8 @@ public class RootLayoutController {
 		main.getCurrencyData().clear();
 		main.getIndexData().clear();
 		main.getStockExchangeData().clear();
+		main.getInvestorData().clear();
+		main.getInvestmentFundData().clear();
 		
 		main.setFilePath(null);
 	}

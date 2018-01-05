@@ -177,6 +177,32 @@ public class AddController implements Initializable {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	public void showAddInvestmentFundStage() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(main.getClass().getResource("view/AddInvestmentFund.fxml"));
+			AnchorPane addInvestmentFund = loader.load();
+
+			Stage addInvestmentFundStage = new Stage();
+			addInvestmentFundStage.setTitle("Add Investment Fund");
+			addInvestmentFundStage.initModality(Modality.WINDOW_MODAL);
+			addInvestmentFundStage.initOwner(main.getPrimaryStage());
+
+			Scene scene = new Scene(addInvestmentFund);
+			addInvestmentFundStage.setScene(scene);
+
+			AddInvestmentFundController controller = loader.getController();
+			controller.setMain(main);
+			controller.setStage(addInvestmentFundStage);
+
+			addInvestmentFundStage.showAndWait();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void handleOk() {
 		if (add.getValue() == null) {
@@ -206,6 +232,10 @@ public class AddController implements Initializable {
 				break;
 			case "Investor":
 				showAddInvestorStage();
+				break;
+			case "Investment Fund":
+				showAddInvestmentFundStage();
+				break;
 			default:
 				window.close();
 				break;

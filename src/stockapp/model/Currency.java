@@ -7,8 +7,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.beans.property.SimpleFloatProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -22,28 +20,23 @@ public class Currency implements Serializable {
 
 	public Currency() {
 		this.nameCurrency = new SimpleStringProperty("Euro");
-		this.nameCurrency = new SimpleStringProperty("EUR");
-		// this.whereIsUsed.addAll("Niemc","Franjca");
-
-	}
-
-	public Currency(String name, String code) {
-		this.nameCurrency = new SimpleStringProperty(name);
-		this.codeCurrency = new SimpleStringProperty(code);
+		this.codeCurrency = new SimpleStringProperty("PLN");
 		this.whereIsUsed.addAll("Francja");
+
 	}
 
-	public StringProperty getCurrencyNameProperty() {
+	public StringProperty getNameCurrencyProperty() {
 		return nameCurrency;
 	}
-
-	public String getCurrencyName() {
+	
+	public String getNameCurrency() {
 		return nameCurrency.get();
 	}
 
-	public void setCurrencyName(String nameCurrency) {
+	public void setNameCurrency(String nameCurrency) {
 		this.nameCurrency.set(nameCurrency);
 	}
+
 
 	public StringProperty getCodeCurrencyProperty() {
 		return codeCurrency;
@@ -53,22 +46,23 @@ public class Currency implements Serializable {
 		return codeCurrency.get();
 	}
 
-	public void setCodeCurrency(String code) {
-		this.codeCurrency.set(code);
+	public void setCodeCurrency(String codeCurrency) {
+		this.codeCurrency.set(codeCurrency);
 	}
+
+
 
 	public ObservableList<String> getWhereIsUsed() {
 		return whereIsUsed;
 	}
 
-	public void setWhereIsUsed(ObservableList<String> list) {
-		this.whereIsUsed = list;
+
+
+	public void setWhereIsUsed(ObservableList<String> whereIsUsed) {
+		this.whereIsUsed = whereIsUsed;
 	}
 
-	@Override
-	public String toString() {
-		return getCurrencyName();
-	}
+
 
 	private void writeObject(ObjectOutputStream oos) {
 		try {

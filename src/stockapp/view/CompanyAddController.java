@@ -126,7 +126,7 @@ public class CompanyAddController {
 			try {
 				Float.parseFloat(openiningPriceTextField.getText());
 			} catch (NumberFormatException e) {
-				errorMessage += "No valid opening price (must be number)!\n";
+				errorMessage += "No valid opening price (must be number with dot)!\n";
 			}
 		}
 
@@ -136,7 +136,7 @@ public class CompanyAddController {
 			try {
 				Float.parseFloat(currentPriceTextField.getText());
 			} catch (NumberFormatException e) {
-				errorMessage += "No valid current price (must be number)!\n";
+				errorMessage += "No valid current price (must be number with dot)!\n";
 			}
 		}
 
@@ -146,7 +146,7 @@ public class CompanyAddController {
 			try {
 				Float.parseFloat(minimumPriceTextField.getText());
 			} catch (NumberFormatException e) {
-				errorMessage += "No valid minimum price (must be number)!\n";
+				errorMessage += "No valid minimum price (must be number with dot)!\n";
 			}
 		}
 

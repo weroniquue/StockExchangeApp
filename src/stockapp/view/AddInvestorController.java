@@ -46,7 +46,7 @@ public class AddInvestorController {
 			tmp.setNameInvestor(nameField.getText());
 			tmp.setSecondNameInvestor(secondNameField.getText());
 			tmp.setNumberPESEL(PESEL.getText());
-			tmp.setBudget(Float.parseFloat(budget.getText()));
+			tmp.setBudget(Double.parseDouble(budget.getText()));
 			
 			main.getInvestorData().add(tmp);
 			

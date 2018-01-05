@@ -21,6 +21,8 @@ public class AddStockExchangeController {
 	private TextField addressField;
 	@FXML
 	private TextField cityField;
+	@FXML
+	private TextField countryField;
 
 	public AddStockExchangeController() {
 		// TODO Auto-generated constructor stub
@@ -47,6 +49,7 @@ public class AddStockExchangeController {
 			tmp.setCurrencyStockExchange(currencyCodeField.getText());
 			tmp.setAddressStockExchange(addressField.getText());
 			tmp.setCityStockExchange(cityField.getText());
+			tmp.setCountryStockExchange(countryField.getText());
 
 			main.getStockExchangeData().add(tmp);
 
@@ -75,6 +78,10 @@ public class AddStockExchangeController {
 		}
 		if (cityField.getText() == null || cityField.getText().length() == 0) {
 			errorMessage += "No valid city!\n";
+		}
+		
+		if (countryField.getText() == null || countryField.getText().length() == 0) {
+			errorMessage += "No valid country!\n";
 		}
 
 		if (errorMessage.length() == 0) {

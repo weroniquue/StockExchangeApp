@@ -41,7 +41,7 @@ public class CurrencyOverviewController {
 	
 	@FXML
 	private void initialize() {
-		currencyColumn.setCellValueFactory(cellData-> cellData.getValue().getCurrencyNameProperty());
+		currencyColumn.setCellValueFactory(cellData-> cellData.getValue().getNameCurrencyProperty());
 		codeColumn.setCellValueFactory(cellData-> cellData.getValue().getCodeCurrencyProperty());
 		
 		currencyTable.getSelectionModel().selectedItemProperty().
@@ -57,7 +57,7 @@ public class CurrencyOverviewController {
 	public void showCurrencyDetails(Currency currency) {
 		if(currency!=null) {
 			whereIsUsed.setItems(currency.getWhereIsUsed());
-			currencyNameLabel.setText(currency.getCurrencyName());
+			currencyNameLabel.setText(currency.getNameCurrency());
 		}else {
 			currencyNameLabel.setText("");
 		}

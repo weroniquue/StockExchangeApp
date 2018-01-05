@@ -35,6 +35,7 @@ import stockapp.model.StockExchange;
 import stockapp.view.AddController;
 import stockapp.view.CompanyOverviewController;
 import stockapp.view.CurrencyOverviewController;
+import stockapp.view.InvestorOverviewController;
 import stockapp.view.MainPageController;
 import stockapp.view.RootLayoutController;
 import stockapp.view.StockExchangeOverviewController;
@@ -55,6 +56,7 @@ public class Main extends Application {
 	private ObservableList<InvestmentFund> investmentFoundData = FXCollections.observableArrayList();
 
 	public Main() {
+		
 	}
 
 	@Override
@@ -139,36 +141,6 @@ public class Main extends Application {
 		}
 	}
 
-	public void showStockExchange() {
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("view/StockExchangeOverview.fxml"));
-			AnchorPane stockExchange = (AnchorPane) loader.load();
-			details.setCenter(stockExchange);
-
-			StockExchangeOverviewController controller = loader.getController();
-			controller.setMain(this);
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void showCurrency() {
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("view/CurrencyOverview.fxml"));
-			AnchorPane index = (AnchorPane) loader.load();
-			details.setCenter(index);
-
-			CurrencyOverviewController controller = loader.getController();
-			controller.setMain(this);
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public void addMenu() {
 
 		try {
@@ -232,6 +204,10 @@ public class Main extends Application {
 		return primaryStage;
 	}
 
+	public BorderPane getDetails() {
+		return details;
+	}
+
 	public ObservableList<Commodity> getCommodityData() {
 		return commodityData;
 	}
@@ -264,6 +240,9 @@ public class Main extends Application {
 			out.writeObject(new ArrayList<Currency>(this.getCurrencyData()));
 			out.writeObject(new ArrayList<Index>(this.getIndexData()));
 			out.writeObject(new ArrayList<StockExchange>(this.getStockExchangeData()));
+			out.writeObject(new ArrayList<Commodity>(this.getCommodityData()));
+			out.writeObject(new ArrayList<Investor>(this.getInvestorData()));
+			out.writeObject(new ArrayList<InvestmentFund>(this.getInvestmentFundData()));
 			out.close();
 
 		} catch (FileNotFoundException e) {
@@ -286,68 +265,56 @@ public class Main extends Application {
 
 	public void loadDataFromFile(File file) {
 		try {
-			ObjectInputStream in = new ObjectInputStream(
-			        new BufferedInputStream(
-			          new FileInputStream(file.getPath())));
-			
-			List<Company> list=(List<Company>) in.readObject();
+			ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(file.getPath())));
+
+			List<Company> list = (List<Company>) in.readObject();
 			this.setCompanyData(FXCollections.observableArrayList(list));
-			List<Currency> listCurrency=(List<Currency>) in.readObject();
+
+			List<Currency> listCurrency = (List<Currency>) in.readObject();
 			this.setCurrencyData(FXCollections.observableArrayList(listCurrency));
-			List<Index> listIndex=(List<Index>) in.readObject();
+
+			List<Index> listIndex = (List<Index>) in.readObject();
 			this.setIndexData(FXCollections.observableArrayList(listIndex));
-			List<StockExchange> listStockExchange=(List<StockExchange>) in.readObject();
+
+			List<StockExchange> listStockExchange = (List<StockExchange>) in.readObject();
 			this.setStockExchangeData(FXCollections.observableArrayList(listStockExchange));
-			
-			
-			
+
+			List<Commodity> listCommodity = (List<Commodity>) in.readObject();
+			this.setCommodityData(FXCollections.observableArrayList(listCommodity));
+
+			List<Investor> listInvestor = (List<Investor>) in.readObject();
+			this.setInvestorData(FXCollections.observableArrayList(listInvestor));
+
+			List<InvestmentFund> listInvestmentFund = (List<InvestmentFund>) in.readObject();
+			this.setInvestmentFundData(FXCollections.observableArrayList(listInvestmentFund));
+
 			setFilePath(file);
+
 		} catch (FileNotFoundException e) {
 		} catch (IOException e) {
 		} catch (ClassNotFoundException e) {
-		} 
+		}
 	}
-	
+
 	public File getfilePath() {
-		Preferences prefs=Preferences.userNodeForPackage(Main.class);
-		String filePath=prefs.get("filePath", null);
-		if(filePath!=null) {
+		Preferences prefs = Preferences.userNodeForPackage(Main.class);
+		String filePath = prefs.get("filePath", null);
+		if (filePath != null) {
 			return new File(filePath);
-		}else {
+		} else {
 			return null;
 		}
 	}
-	
+
 	public void setFilePath(File file) {
-		Preferences prefs=Preferences.userNodeForPackage(Main.class);
-		if(file !=null) {
+		Preferences prefs = Preferences.userNodeForPackage(Main.class);
+		if (file != null) {
 			prefs.put("filePath", file.getPath());
-			primaryStage.setTitle("StockExchangeApp-"+file.getName());
-		}else {
+			primaryStage.setTitle("StockExchangeApp-" + file.getName());
+		} else {
 			prefs.remove("filePath");
-			
+
 			primaryStage.setTitle("StockExchngeApp");
 		}
 	}
 }
-
-/*
- * public void loadDataFromFile(File file) { try { JAXBContext context =
- * JAXBContext .newInstance(CompanyListWrapper.class); Unmarshaller um =
- * context.createUnmarshaller();
- * 
- * // Reading XML from the file and unmarshalling. CompanyListWrapper wrapper =
- * (CompanyListWrapper) um.unmarshal(file);
- * 
- * companyData.clear(); companyData.addAll(wrapper.getCompany());
- * 
- * System.out.println(); // Save the file path to the registry.
- * setDataFilePath(file);
- * 
- * } catch (Exception e) { // catches ANY exception Alert alert = new
- * Alert(AlertType.ERROR); alert.setTitle("Error");
- * alert.setHeaderText("Could not load data");
- * alert.setContentText("Could not load data from file:\n" + file.getPath());
- * 
- * alert.showAndWait(); } }
- */
