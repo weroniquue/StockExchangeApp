@@ -6,7 +6,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import stockapp.Main;
-import stockapp.model.Investor;
+import stockapp.model.InvestorIndividual;
 
 public class AddInvestorController {
 
@@ -41,14 +41,15 @@ public class AddInvestorController {
 	
 	public void handleSave() {
 		if(isValid()) {
-			Investor tmp=new Investor();
+			InvestorIndividual tmp=new InvestorIndividual();
 			
 			tmp.setNameInvestor(nameField.getText());
 			tmp.setSecondNameInvestor(secondNameField.getText());
 			tmp.setNumberPESEL(PESEL.getText());
 			tmp.setBudget(Double.parseDouble(budget.getText()));
+			tmp.setMain(main);
 			
-			tmp.start();
+			tmp.setStart(false);
 			main.getInvestorData().add(tmp);
 			
 			stage.close();

@@ -9,12 +9,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.sql.Time;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.prefs.Preferences;
 import javafx.application.Application;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -33,7 +38,7 @@ import stockapp.model.Company;
 import stockapp.model.Currency;
 import stockapp.model.Index;
 import stockapp.model.InvestmentFund;
-import stockapp.model.Investor;
+import stockapp.model.InvestorIndividual;
 import stockapp.model.StockExchange;
 import stockapp.view.AddController;
 import stockapp.view.CompanyOverviewController;
@@ -41,38 +46,75 @@ import stockapp.view.MainPageController;
 import stockapp.view.RootLayoutController;
 import stockapp.view.TabController;
 
-public class Main extends Application {
+public class Main extends Application{
 
 	private Stage primaryStage;
 	private BorderPane rootLayout;
 	private BorderPane details;
 
-	static public boolean start = true;
-	static public int time = 8;
+	static public LocalTime localTime;
+	Random ranodm = new Random();
 
-	private ObservableList<Company> companyData = FXCollections.observableArrayList();
-	private ObservableList<Currency> currencyData = FXCollections.observableArrayList();
-	private ObservableList<Index> indexData = FXCollections.observableArrayList();
-	private ObservableList<StockExchange> stockExchangeData = FXCollections.observableArrayList();
-	private ObservableList<Commodity> commodityData = FXCollections.observableArrayList();
-	private ObservableList<Investor> investorData = FXCollections.observableArrayList();
-	private ObservableList<InvestmentFund> investmentFoundData = FXCollections.observableArrayList();
+	//List of all available data on app.
+	transient private ObservableList<Company> companyData = FXCollections.observableArrayList();
+	transient private ObservableList<Currency> currencyData = FXCollections.observableArrayList();
+	transient private ObservableList<Index> indexData = FXCollections.observableArrayList();
+	transient private ObservableList<StockExchange> stockExchangeData = FXCollections.observableArrayList();
+	transient private ObservableList<Commodity> commodityData = FXCollections.observableArrayList();
+	transient private ObservableList<InvestorIndividual> investorData = FXCollections.observableArrayList();
+	transient private ObservableList<InvestmentFund> investmentFoundData = FXCollections.observableArrayList();
 
+	/**
+	 * @param task is responsible for start thread of investor according amount of assets .
+	 */
 	Timer myTimer = new Timer();
 	TimerTask task = new TimerTask() {
 
 		@Override
 		public void run() {
-			if (time < 17) {
-				time++;
-			} else {
-				time = 8;
+			int activeValue = 0;
+			int activeInvestor = 0;
+			localTime = localTime.now();
+			activeValue += companyData.size();
+			activeValue += commodityData.size();
+			activeValue += currencyData.size();
+
+			if (investmentFoundData.size() == 1) {
+				InvestmentFund randomInvestmentFund = investmentFoundData
+						.get(ranodm.nextInt(investmentFoundData.size()));
+				if (!randomInvestmentFund.isStart()) {
+					randomInvestmentFund.setStart(true);
+					randomInvestmentFund.start();
+					activeInvestor++;
+				}
 			}
-			System.out.println(time);
+			if (investorData.size() == 1) {
+				investorData.get(0).setStart(true);
+				investorData.get(0).start();
+				activeInvestor++;
+			}
+			if (activeValue > 0 && activeValue % 8 == 0) {
+				InvestorIndividual randomInvestor = investorData.get(ranodm.nextInt(investorData.size()));
+				if (!randomInvestor.isStart()) {
+					randomInvestor.setStart(true);
+					randomInvestor.start();
+					activeInvestor++;
+				}
+			}
+			if (activeInvestor != 0 && (activeValue / activeInvestor) > 7) {
+				InvestorIndividual randomInvestor = investorData.get(ranodm.nextInt(investorData.size()));
+				if (!randomInvestor.isStart()) {
+					randomInvestor.setStart(false);
+				}
+			}
+			activeValue = 0;
+			activeInvestor = 0;
 		}
+
 	};
 
 	public Main() {
+
 	}
 
 	@Override
@@ -84,32 +126,58 @@ public class Main extends Application {
 		initRootLayout();
 		showMainPage();
 
+		/**
+		 * When the close button is pressed all thread are stopped.
+		 */
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 
 			@Override
 			public void handle(WindowEvent event) {
-				start = false;
+				for (Company company : companyData) {
+					company.setStart(false);
+				}
+				for (InvestorIndividual investor : investorData) {
+					investor.setStart(false);
+				}
+				for (InvestmentFund investmentFund : investmentFoundData) {
+					investmentFund.setStart(false);
+				}
+				
 				myTimer.cancel();
 
 			}
 		});
-		myTimer.scheduleAtFixedRate(task, 0, 1000 * 60);
+		myTimer.scheduleAtFixedRate(task, 0, 1000 * 5);
+
 	}
 
 	public static void main(String[] args) {
 		launch(args);
 	}
 
+	/**Initializes the root layout.
+	 * 
+	 */
 	public void initRootLayout() {
 		try {
+			/**
+			 * @param load Load root layout from fxml file.
+			 * 
+			 */
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("view/RootLayout.fxml"));
 			rootLayout = loader.load();
 
+			/**Show the scene containing the root layout.
+			 * 
+			 */
 			Scene scene = new Scene(rootLayout);
 			primaryStage.setScene(scene);
 			primaryStage.show();
 
+			/**
+			 * Give the controller access to main app.
+			 */
 			RootLayoutController controller = loader.getController();
 			controller.setMain(this);
 
@@ -118,15 +186,27 @@ public class Main extends Application {
 		}
 
 	}
-
+	
+	/**
+	 *Shows the main page inside the root layout. 
+	 * */
 	public void showMainPage() {
 		try {
+			/**
+			 * @param loader Load main page fxml.
+			 */
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("view/MainPage.fxml"));
 			AnchorPane MainPage = (AnchorPane) loader.load();
 
+			/**Set main page overview into the center of root layout.
+			 * 
+			 */
 			rootLayout.setCenter(MainPage);
 
+			/**
+			 * Give the controller access to the main app.
+			 */
 			MainPageController controller = loader.getController();
 			controller.setMainPage(this);
 
@@ -135,9 +215,15 @@ public class Main extends Application {
 		}
 	}
 
+	/**
+	 * Show the detail overview with tab to control switch between scene.
+	 * */
 	public void showDetails() {
 		try {
 
+			/**
+			 * Load fxml file.
+			 */
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("view/RootDetails.fxml"));
 			details = (BorderPane) loader.load();
@@ -146,6 +232,9 @@ public class Main extends Application {
 
 			showCompany();
 
+			/**
+			 * Give the controller access to the main app.
+			 */
 			TabController controller = loader.getController();
 			controller.setMain(this);
 
@@ -154,6 +243,9 @@ public class Main extends Application {
 		}
 	}
 
+	/**
+	 * Show details of company. 
+	 * */
 	public void showCompany() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -169,6 +261,9 @@ public class Main extends Application {
 		}
 	}
 
+	/**
+	 * Create new stage to add data to app.
+	 * */
 	public void addMenu() {
 
 		try {
@@ -185,6 +280,7 @@ public class Main extends Application {
 			Scene scene = new Scene(add);
 			addWindow.setScene(scene);
 
+			//Give the controller acces to main app and add stage.
 			AddController controller = loader.getController();
 			controller.setMain(this);
 			controller.setStage(addWindow);
@@ -244,11 +340,11 @@ public class Main extends Application {
 		this.commodityData = commodityData;
 	}
 
-	public ObservableList<Investor> getInvestorData() {
+	public ObservableList<InvestorIndividual> getInvestorData() {
 		return investorData;
 	}
 
-	public void setInvestorData(ObservableList<Investor> investorData) {
+	public void setInvestorData(ObservableList<InvestorIndividual> investorData) {
 		this.investorData = investorData;
 	}
 
@@ -260,6 +356,9 @@ public class Main extends Application {
 		this.investmentFoundData = investmentFundData;
 	}
 
+	/**
+	 * It allows to write all object in file.
+	 * */
 	public void saveDataToFile(String filePath) {
 		try {
 			ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(filePath)));
@@ -269,7 +368,7 @@ public class Main extends Application {
 			out.writeObject(new ArrayList<Index>(this.getIndexData()));
 			out.writeObject(new ArrayList<StockExchange>(this.getStockExchangeData()));
 			out.writeObject(new ArrayList<Commodity>(this.getCommodityData()));
-			out.writeObject(new ArrayList<Investor>(this.getInvestorData()));
+			out.writeObject(new ArrayList<InvestorIndividual>(this.getInvestorData()));
 			out.writeObject(new ArrayList<InvestmentFund>(this.getInvestmentFundData()));
 			out.close();
 
@@ -291,6 +390,9 @@ public class Main extends Application {
 		}
 	}
 
+	/**
+	 * It allows to load data from file and resume simulation
+	 * */
 	public void loadDataFromFile(File file) {
 		try {
 			ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(file.getPath())));
@@ -310,23 +412,20 @@ public class Main extends Application {
 			List<Commodity> listCommodity = (List<Commodity>) in.readObject();
 			this.setCommodityData(FXCollections.observableArrayList(listCommodity));
 
-			List<Investor> listInvestor = (List<Investor>) in.readObject();
+			List<InvestorIndividual> listInvestor = (List<InvestorIndividual>) in.readObject();
 			this.setInvestorData(FXCollections.observableArrayList(listInvestor));
 
 			List<InvestmentFund> listInvestmentFund = (List<InvestmentFund>) in.readObject();
 			this.setInvestmentFundData(FXCollections.observableArrayList(listInvestmentFund));
 
+			in.close();
+			
 			setFilePath(file);
 
-			for (Company company : companyData) {
-				company.start();
-			}
-			for (InvestmentFund investmentFund : investmentFoundData) {
-				investmentFund.start();
-			}
-			for (Investor investor : investorData) {
-				investor.start();
-			}
+			
+			for (Company company : companyData) { 
+				company.start(); 
+			} 
 
 		} catch (FileNotFoundException e) {
 		} catch (IOException e) {
@@ -334,6 +433,12 @@ public class Main extends Application {
 		}
 	}
 
+	
+	/**
+	 * Returns the person file preference, i.e. the file that was last opened.
+	 * If no such preference can be found, null is returned.
+	 * @return
+	 */
 	public File getfilePath() {
 		Preferences prefs = Preferences.userNodeForPackage(Main.class);
 		String filePath = prefs.get("filePath", null);
@@ -343,7 +448,12 @@ public class Main extends Application {
 			return null;
 		}
 	}
-
+/**
+ * Sets the file path of the currently loaded file. The path is persisted in
+ * the OS specific registry.
+ * 
+ * @param file the file or null to remove the path
+ */
 	public void setFilePath(File file) {
 		Preferences prefs = Preferences.userNodeForPackage(Main.class);
 		if (file != null) {

@@ -5,7 +5,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -18,17 +20,25 @@ public class StockExchange extends Market implements Serializable{
 	transient private StringProperty currencyStockExchange;
 	transient private StringProperty cityStockExchange;
 	transient private StringProperty addressStockExchange;
+	transient private double CEOSalary;
 	transient private ObservableList<Index> listOfIndex=FXCollections.observableArrayList();
+	transient private ObservableList<Company> listOfCompanyOnStockExchange=FXCollections.observableArrayList();
 	
 	
 	public StockExchange() {
-		this.nameStockExchange=new SimpleStringProperty();
-		this.countryStockExchange=new SimpleStringProperty();
-		this.currencyStockExchange=new SimpleStringProperty();
-		this.cityStockExchange=new SimpleStringProperty();
-		this.addressStockExchange=new SimpleStringProperty();
+		this.nameStockExchange=new SimpleStringProperty("StockExchange");
+		this.countryStockExchange=new SimpleStringProperty("Country");
+		this.currencyStockExchange=new SimpleStringProperty("Currency");
+		this.cityStockExchange=new SimpleStringProperty("City");
+		this.addressStockExchange=new SimpleStringProperty("Street 43");
 	}
 	
+	@Override
+	public double getMarkup(double price) {
+		double markup=0.03;
+		CEOSalary+=price*markup;
+		return price*markup;
+	}
 	
 	public StringProperty getNameStockExchangeProperty() {
 		return nameStockExchange;
@@ -72,6 +82,18 @@ public class StockExchange extends Market implements Serializable{
 		this.listOfIndex = listOfIndex;
 	}
 	
+	
+
+	public ObservableList<Company> getListOfCompanyOnStockExchange() {
+		return listOfCompanyOnStockExchange;
+	}
+
+
+	public void setListOfCompanyOnStockExchange(ObservableList<Company> listOfComppanyOnStockExchange) {
+		this.listOfCompanyOnStockExchange = listOfComppanyOnStockExchange;
+	}
+
+
 	private void writeObject(ObjectOutputStream oos) {
 		try {
 			oos.defaultWriteObject();
@@ -81,6 +103,7 @@ public class StockExchange extends Market implements Serializable{
 			oos.writeObject(cityStockExchange.get());
 			oos.writeObject(addressStockExchange.get());
 			oos.writeObject(new ArrayList<Index>(listOfIndex));
+			oos.writeObject(new ArrayList<Company>(listOfCompanyOnStockExchange));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -96,6 +119,8 @@ public class StockExchange extends Market implements Serializable{
 			addressStockExchange=new SimpleStringProperty((String) ois.readObject());
 			List<Index> listindex = (List<Index>) ois.readObject();
 			this.setListOfIndex(FXCollections.observableArrayList(listindex));
+			List<Company> company=(List<Company>)ois.readObject();
+			this.setListOfCompanyOnStockExchange(FXCollections.observableArrayList(company));
 		} catch (ClassNotFoundException | IOException e) {}
 
 	}

@@ -1,11 +1,12 @@
 package stockapp.model;
 
-import javafx.beans.property.FloatProperty;
-import javafx.beans.property.StringProperty;
+import java.io.Serializable;
 
-abstract public class Market {
-	private FloatProperty markup;//mar¿a
-	private StringProperty name;
+import javafx.beans.property.DoubleProperty;
+
+
+abstract public class Market implements Serializable {
+	private DoubleProperty markup;//mar¿a
 	
-	//public abstract void pobierzmarze();
+	public abstract double getMarkup(double price);
 }

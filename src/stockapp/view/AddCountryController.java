@@ -25,6 +25,8 @@ public class AddCountryController {
 		stage.close();
 	}
 	
+	/**Add the country to list if user click OK
+	 * @return null*/
 	public void handleOK() {
 		controller.getCurrencyTable().getSelectionModel().getSelectedItem().getWhereIsUsed().add(nameOfCountry.getText());
 		Alert alert = new Alert(AlertType.INFORMATION);

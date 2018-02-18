@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Random;
 
+/**
+ * This class create random date.*/
 public class RandomDate implements Serializable {
 	Random random=new Random();
 	SimpleDateFormat sdf= new SimpleDateFormat("dd.MM.yyyy");

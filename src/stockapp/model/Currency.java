@@ -12,8 +12,11 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+/**The class is model of currency*/
 public class Currency implements Serializable {
 
+	/**@param whereIsUsed is the list where are kept country where the currency is used.
+	 * */
 	transient private StringProperty nameCurrency;
 	transient private StringProperty codeCurrency;
 	transient private ObservableList<String> whereIsUsed = FXCollections.observableArrayList();
@@ -28,7 +31,7 @@ public class Currency implements Serializable {
 	public StringProperty getNameCurrencyProperty() {
 		return nameCurrency;
 	}
-	
+
 	public String getNameCurrency() {
 		return nameCurrency.get();
 	}
@@ -36,7 +39,6 @@ public class Currency implements Serializable {
 	public void setNameCurrency(String nameCurrency) {
 		this.nameCurrency.set(nameCurrency);
 	}
-
 
 	public StringProperty getCodeCurrencyProperty() {
 		return codeCurrency;
@@ -50,20 +52,15 @@ public class Currency implements Serializable {
 		this.codeCurrency.set(codeCurrency);
 	}
 
-
-
 	public ObservableList<String> getWhereIsUsed() {
 		return whereIsUsed;
 	}
 
-
-
 	public void setWhereIsUsed(ObservableList<String> whereIsUsed) {
 		this.whereIsUsed = whereIsUsed;
 	}
-
-
-
+	
+	/**@see main*/
 	private void writeObject(ObjectOutputStream oos) {
 		try {
 			oos.defaultWriteObject();
@@ -76,14 +73,17 @@ public class Currency implements Serializable {
 		}
 	}
 
+	/**@see main*/
 	private void readObject(ObjectInputStream ois) {
 		try {
 			ois.defaultReadObject();
 			nameCurrency = new SimpleStringProperty((String) ois.readObject());
 			codeCurrency = new SimpleStringProperty((String) ois.readObject());
+			
 			List<String> listwhereisused = (List<String>) ois.readObject();
 			this.setWhereIsUsed(FXCollections.observableArrayList(listwhereisused));
-		} catch (ClassNotFoundException | IOException e) {}
+		} catch (ClassNotFoundException | IOException e) {
+		}
 
 	}
 

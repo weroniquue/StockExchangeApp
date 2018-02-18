@@ -10,6 +10,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import javafx.fxml.FXML;
@@ -46,12 +48,14 @@ public class StockExchangeOverviewController {
 	@FXML
 	private Label cityLabel;
 	@FXML
-	private LineChart<?,?> linechart;
+	private LineChart<?, ?> linechart;
 	@FXML
 	private CategoryAxis x;
 	@FXML
 	private NumberAxis y;
-	
+	XYChart.Series seria1 = new XYChart.Series();
+
+	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
 
 	private StringConverter<Index> converter;
 
@@ -78,6 +82,7 @@ public class StockExchangeOverviewController {
 		indexTable.getSelectionModel().selectedItemProperty()
 				.addListener((observable, oldValue, newValue) -> drawGraph(newValue));
 
+		/**It wait for changes in list of company and display current informations.*/
 		listCompany.setCellFactory(new Callback<ListView<Company>, ListCell<Company>>() {
 
 			@Override
@@ -96,9 +101,10 @@ public class StockExchangeOverviewController {
 				return cell;
 			}
 		});
-		
+
 	}
 
+	/**It shows the informations about choose stock exchange.*/
 	public void showDetailsAboutStockExchange(StockExchange stockExchange) {
 		if (stockExchange != null) {
 			indexTable.setItems(stockExchange.getListOfIndex());
@@ -115,15 +121,28 @@ public class StockExchangeOverviewController {
 
 	}
 
+	/**It draws graph of index. */
 	public void drawGraph(Index index) {
+
+		linechart.setCreateSymbols(false);
+		linechart.setAnimated(true);
+		linechart.setLegendVisible(false);
 		if (index != null) {
 			listCompany.setItems(index.getCompanyInIndex());
-			
-			
+
+			System.out.println("Index:" + index.getResultsOfIndex());
+			seria1.getData().clear();
+			for (int i = 0; i < index.getCompanyInIndex().get(0).timeList.size(); i++) {
+				seria1.getData().add(new XYChart.Data<>(index.getCompanyInIndex().get(0).timeList.get(i).format(dtf),
+						index.getResultsOfIndex()));
+
+			}
+			linechart.getData().add(seria1);
 		}
 
 	}
 
+	/**It allows to delete index from app.*/
 	public void handeDeleteIndex() {
 		if (stockExchangeTable.getSelectionModel().getSelectedIndex() >= 0) {
 			int selectedIndex = indexTable.getSelectionModel().getSelectedIndex();
@@ -162,13 +181,15 @@ public class StockExchangeOverviewController {
 		}
 	}
 
+	/**
+	 * It allows to delete stockExchange from app.*/
 	public void handleDeleteStockExchange() {
 		int selectedStockExchange = stockExchangeTable.getSelectionModel().getSelectedIndex();
 		if (selectedStockExchange >= 0) {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Delete");
 			alert.setHeaderText("Are you sure?");
-			alert.setContentText("Do you want to delete choosing Stock Exchange?");
+			alert.setContentText("Do you want to delete chosen Stock Exchange?");
 
 			ButtonType buttonYes = new ButtonType("Yes");
 			ButtonType buttonNo = new ButtonType("No");
@@ -190,5 +211,6 @@ public class StockExchangeOverviewController {
 		}
 
 	}
+	
 
 }

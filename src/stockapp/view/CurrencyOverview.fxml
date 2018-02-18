@@ -32,7 +32,7 @@
                <children>
                   <HBox alignment="CENTER_RIGHT" layoutX="728.0" layoutY="29.0" prefHeight="39.0" prefWidth="200.0" snapToPixel="false" spacing="15.0">
                      <children>
-                        <Button mnemonicParsing="false" text="Delete" />
+                        <Button mnemonicParsing="false" onAction="#deleteCurrency" text="Delete" />
                      </children>
                   </HBox>
                   <VBox layoutX="40.0" layoutY="85.0" prefHeight="576.0" prefWidth="265.0">

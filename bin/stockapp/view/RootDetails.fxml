@@ -11,9 +11,10 @@
           <Button mnemonicParsing="false" onAction="#backToMenu" text="Menu" />
             <Button mnemonicParsing="false" onAction="#showCompany" text="Company" />
             <Button mnemonicParsing="false" onAction="#showStockExchange" text="Stock Exchange" />
+            <Button mnemonicParsing="false" onAction="#showCommodity" text="Commodity" />
             <Button mnemonicParsing="false" onAction="#showCurrency" text="Currency" />
             <Button mnemonicParsing="false" onAction="#showInvestor" text="Investor" />
-            <Button mnemonicParsing="false" text="Investment Fund" />
+            <Button mnemonicParsing="false" onAction="#showInvestmentFund" text="Investment Fund" />
         </items>
       </ToolBar>
    </top>

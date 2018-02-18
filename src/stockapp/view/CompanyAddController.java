@@ -86,17 +86,18 @@ public class CompanyAddController {
 			});
 
 			tmp.setDateOfFirstValuation(convertDate(dateOfFirstValuationTextField.getValue()));
-			tmp.setOpeniningPrice(Float.parseFloat(openiningPriceTextField.getText()));
-			tmp.setCurrentPrice(Float.parseFloat(currentPriceTextField.getText()));
-			tmp.setMinimumPrice(Float.parseFloat(minimumPriceTextField.getText()));
+			tmp.setOpeniningPrice(Double.parseDouble(openiningPriceTextField.getText()));
+			tmp.setCurrentPrice(Double.parseDouble(currentPriceTextField.getText()));
+			tmp.setMinimumPrice(Double.parseDouble(minimumPriceTextField.getText()));
 			tmp.setNumberOfStock(Integer.parseInt(numberOfStockTextField.getText()));
-			tmp.setProfit(Float.parseFloat(profitsTextField.getText()));
-			tmp.setIncome(Float.parseFloat(incomeTextField.getText()));
-			tmp.setEquitalCapital(Float.parseFloat(equitalCapitalTextField.getText()));
-			tmp.setInitialCapital(Float.parseFloat(initialCapitalTextField.getText()));
+			tmp.setProfit(Double.parseDouble(profitsTextField.getText()));
+			tmp.setIncome(Double.parseDouble(incomeTextField.getText()));
+			tmp.setEquitalCapital(Double.parseDouble(equitalCapitalTextField.getText()));
+			tmp.setInitialCapital(Double.parseDouble(initialCapitalTextField.getText()));
 			tmp.setVolume(Integer.parseInt(volumeTextField.getText()));
-			tmp.setAssetsTurnover(Float.parseFloat(assetsTurnoverTextField.getText()));
+			tmp.setAssetsTurnover(Double.parseDouble(assetsTurnoverTextField.getText()));
 
+			tmp.start();
 			main.getCompanyData().add(tmp);
 			stage.close();
 
@@ -124,7 +125,7 @@ public class CompanyAddController {
 			errorMessage += "No valid value of opening price!\n";
 		} else {
 			try {
-				Float.parseFloat(openiningPriceTextField.getText());
+				Double.parseDouble(openiningPriceTextField.getText());
 			} catch (NumberFormatException e) {
 				errorMessage += "No valid opening price (must be number with dot)!\n";
 			}
@@ -134,7 +135,7 @@ public class CompanyAddController {
 			errorMessage += "No valid current price!\n";
 		} else {
 			try {
-				Float.parseFloat(currentPriceTextField.getText());
+				Double.parseDouble(currentPriceTextField.getText());
 			} catch (NumberFormatException e) {
 				errorMessage += "No valid current price (must be number with dot)!\n";
 			}
@@ -144,7 +145,7 @@ public class CompanyAddController {
 			errorMessage += "No valid value of minimum price!\n";
 		} else {
 			try {
-				Float.parseFloat(minimumPriceTextField.getText());
+				Double.parseDouble(minimumPriceTextField.getText());
 			} catch (NumberFormatException e) {
 				errorMessage += "No valid minimum price (must be number with dot)!\n";
 			}
@@ -164,7 +165,7 @@ public class CompanyAddController {
 			errorMessage += "No valid value of profits!\n";
 		} else {
 			try {
-				Float.parseFloat(profitsTextField.getText());
+				Double.parseDouble(profitsTextField.getText());
 			} catch (NumberFormatException e) {
 				errorMessage += "No valid profits (must be number)!\n";
 			}
@@ -174,7 +175,7 @@ public class CompanyAddController {
 			errorMessage += "No valid value of income!\n";
 		} else {
 			try {
-				Float.parseFloat(incomeTextField.getText());
+				Double.parseDouble(incomeTextField.getText());
 			} catch (NumberFormatException e) {
 				errorMessage += "No valid income (must be number)!\n";
 			}
@@ -184,7 +185,7 @@ public class CompanyAddController {
 			errorMessage += "No valid value of equaital capital!\n";
 		} else {
 			try {
-				Float.parseFloat(equitalCapitalTextField.getText());
+				Double.parseDouble(equitalCapitalTextField.getText());
 			} catch (NumberFormatException e) {
 				errorMessage += "No valid equital capital (must be number)!\n";
 			}
@@ -194,7 +195,7 @@ public class CompanyAddController {
 			errorMessage += "No valid value of initial capital!\n";
 		} else {
 			try {
-				Float.parseFloat(initialCapitalTextField.getText());
+				Double.parseDouble(initialCapitalTextField.getText());
 			} catch (NumberFormatException e) {
 				errorMessage += "No valid initial capital (must be number)!\n";
 			}
@@ -214,7 +215,7 @@ public class CompanyAddController {
 			errorMessage += "No valid value of assets turnover!\n";
 		} else {
 			try {
-				Float.parseFloat(assetsTurnoverTextField.getText());
+				Double.parseDouble(assetsTurnoverTextField.getText());
 			} catch (NumberFormatException e) {
 				errorMessage += "No valid assets turnover (must be number)!\n";
 			}

@@ -204,6 +204,32 @@ public class AddController implements Initializable {
 		}
 	}
 
+	public void showAddCurrencyStage() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(main.getClass().getResource("view/AddCurrency.fxml"));
+			AnchorPane addCurrency = loader.load();
+
+			Stage addCurrencyStage = new Stage();
+			addCurrencyStage.setTitle("Add Company");
+			addCurrencyStage.initModality(Modality.WINDOW_MODAL);
+			addCurrencyStage.initOwner(main.getPrimaryStage());
+
+			Scene scene = new Scene(addCurrency);
+			addCurrencyStage.setScene(scene);
+
+			AddCurrencyController controller = loader.getController();
+			controller.setMain(main);
+			controller.setStage(addCurrencyStage);
+
+			addCurrencyStage.showAndWait();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	public void handleOk() {
 		if (add.getValue() == null) {
 			Alert alert = new Alert(AlertType.WARNING);
@@ -223,6 +249,9 @@ public class AddController implements Initializable {
 				break;
 			case "Company":
 				showCompanyAddStage();
+				break;
+			case "Currency":
+				showAddCurrencyStage();
 				break;
 			case "Index":
 				showCreateIndexStage();

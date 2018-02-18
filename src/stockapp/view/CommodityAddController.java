@@ -34,7 +34,11 @@ public class CommodityAddController {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void initialize(URL location, ResourceBundle resources) {
+	@FXML
+	public void initialize() {
+		/**
+		 * This converter makes that in the box are shown only name of currency.
+		 * */
 		StringConverter<Currency> converter = new StringConverter<Currency>() {
 			@Override
 			public String toString(Currency item) {
@@ -58,10 +62,12 @@ public class CommodityAddController {
 		this.stage = stage;
 	}
 
+	/**Close window*/
 	public void handleClose() {
 		stage.close();
 	}
 
+	/**Create new commodity and add this to list of commodity in main. */
 	public void handleSave() {
 		if (isValid()) {
 			Commodity tmp=new Commodity();
@@ -85,6 +91,8 @@ public class CommodityAddController {
 		}
 	}
 
+	/**It check if data from user is valid.
+	 * @return true or false depends on textfield. */
 	public boolean isValid() {
 		String error = "";
 

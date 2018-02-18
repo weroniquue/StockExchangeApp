@@ -15,6 +15,7 @@ import stockapp.model.Company;
 import stockapp.model.Index;
 import stockapp.model.StockExchange;
 
+/**The class is responsible for stage when user would like to create index.*/
 public class CreateIndexController {
 
 	private Main main;
@@ -31,6 +32,8 @@ public class CreateIndexController {
 
 	@FXML
 	public void initialize() {
+		
+		/** In the box are display only name of stock exchange.*/
 		StringConverter<StockExchange> converter = new StringConverter<StockExchange>() {
 			@Override
 			public String toString(StockExchange item) {
@@ -56,6 +59,7 @@ public class CreateIndexController {
 				}
 			}
 		});
+		/**It allows to choose more than one company.*/
 		companyList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 	}
 
@@ -74,16 +78,22 @@ public class CreateIndexController {
 		stage.close();
 	}
 
+	
+	/**Main method of add index to app.*/
 	public void handleSave() {
 		if (isValid()) {
-			Index tmp=new Index();
+			Index tmp = new Index(stockExchangeBox.getSelectionModel().getSelectedItem());
 			tmp.setNameIndex(nameField.getText());
 			tmp.getCompanyInIndex().addAll(companyList.getSelectionModel().getSelectedItems());
 			stockExchangeBox.getSelectionModel().getSelectedItem().getListOfIndex().add(tmp);
 			
-			stage.close();
+			stockExchangeBox.getSelectionModel().getSelectedItem().getListOfCompanyOnStockExchange()
+					.addAll(companyList.getSelectionModel().getSelectedItems());
 			
-			Alert alert=new Alert(AlertType.INFORMATION);
+
+			stage.close();
+
+			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.initOwner(main.getPrimaryStage());
 			alert.setTitle("Create Index");
 			alert.setHeaderText("Create index");
@@ -92,23 +102,24 @@ public class CreateIndexController {
 			alert.showAndWait();
 
 		}
-		
+
 	}
 
+	/**It checks if the user input is valid.*/
 	private boolean isValid() {
-		String error="";
-		if(nameField==null||nameField.getText().length()==0) {
-			error+="No valid index name!\n";
+		String error = "";
+		if (nameField == null || nameField.getText().length() == 0) {
+			error += "No valid index name!\n";
 		}
-		if(stockExchangeBox.getSelectionModel().getSelectedIndex()<0) {
-			error+="No valid Stock exchange! \n";
+		if (stockExchangeBox.getSelectionModel().getSelectedIndex() < 0) {
+			error += "No valid Stock exchange! \n";
 		}
-		if(companyList.getSelectionModel().isEmpty()) {
-			error+="No selected items on list!\n";
+		if (companyList.getSelectionModel().isEmpty()) {
+			error += "No selected items on list!\n";
 		}
-		if(error.length()==0) {
+		if (error.length() == 0) {
 			return true;
-		}else {
+		} else {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.initOwner(main.getPrimaryStage());
 			alert.setTitle("No valid index");

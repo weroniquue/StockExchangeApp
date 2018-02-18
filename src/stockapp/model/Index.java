@@ -6,23 +6,32 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.FloatProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class Index implements Serializable{
+/**The class is model of company*/
+public class Index implements Serializable {
 	transient private StringProperty nameIndex;
 	transient private ObservableList<Company> companyInIndex = FXCollections.observableArrayList();
-	transient private FloatProperty resultsOfIndex;
+	transient private DoubleProperty resultsOfIndex;
+	transient private StockExchange stockEchange;
+	Random random=new Random();
 
-	public Index() {
-		nameIndex=new SimpleStringProperty();
-		resultsOfIndex=new SimpleFloatProperty();
+	/**@param stockExchange This is the stock exchange where the index is created.*/
+	public Index(StockExchange stockExchange) {
+		nameIndex = new SimpleStringProperty("Index");
+		resultsOfIndex = new SimpleDoubleProperty(20.12);
+		this.stockEchange = stockExchange;
 	}
-	
+
 	public StringProperty getNameIndexProperty() {
 		return nameIndex;
 	}
@@ -42,11 +51,20 @@ public class Index implements Serializable{
 	public void setCompanyInIndex(ObservableList<Company> companyInIndex) {
 		this.companyInIndex = companyInIndex;
 	}
-
-	public float getResultsOfIndex() {
+	
+	/**
+	 * It sum the current price of all company in the index.*/
+	public void calculateResults() {
+		double current=0;
 		for (Company company : companyInIndex) {
-			resultsOfIndex.set(resultsOfIndex.get()+company.getCurrentPrice());
+			current += company.getCurrentPrice();
 		}
+		current+=current*random.nextDouble()+10;
+		resultsOfIndex.set(current);
+	}
+
+	public double getResultsOfIndex() {
+		calculateResults();
 		return resultsOfIndex.get();
 	}
 
@@ -69,13 +87,14 @@ public class Index implements Serializable{
 	private void readObject(ObjectInputStream ois) {
 		try {
 			ois.defaultReadObject();
-			nameIndex=new SimpleStringProperty((String) ois.readObject());
-			List<Company> listCompanyInIndex=(List<Company>) ois.readObject();
+			nameIndex = new SimpleStringProperty((String) ois.readObject());
+			List<Company> listCompanyInIndex = (List<Company>) ois.readObject();
 			this.setCompanyInIndex(FXCollections.observableArrayList(listCompanyInIndex));
-			resultsOfIndex=new SimpleFloatProperty((Float) ois.readObject());
-	
-		} catch (ClassNotFoundException | IOException e) {}
+			resultsOfIndex = new SimpleDoubleProperty((Double) ois.readObject());
+
+		} catch (ClassNotFoundException | IOException e) {
+		}
 
 	}
-	
+
 }

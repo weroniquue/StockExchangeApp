@@ -31,6 +31,7 @@ public class TabController {
 		main.showCompany();
 	}
 
+	/**It shows stock exchange scene.*/
 	public void showStockExchange() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -45,7 +46,8 @@ public class TabController {
 			e.printStackTrace();
 		}
 	}
-
+	
+	/**It shows currency scene.*/
 	public void showCurrency() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -61,6 +63,7 @@ public class TabController {
 		}
 	}
 
+	/**It show investor scene.*/
 	public void showInvestor() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -69,6 +72,40 @@ public class TabController {
 			main.getDetails().setCenter(investor);
 
 			InvestorOverviewController controller = loader.getController();
+			controller.setMain(main);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**Shows commodity scene.*/
+	public void showCommodity() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(main.getClass().getResource("view/CommodityOverview.fxml"));
+			AnchorPane commodity = (AnchorPane) loader.load();
+			main.getDetails().setCenter(commodity);
+
+			CommodityOverviewController controller = loader.getController();
+			controller.setMain(main);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	/**It show investment fund scene.*/
+	public void showInvestmentFund() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(main.getClass().getResource("view/InvestmentFundOverview.fxml"));
+			AnchorPane investmentFund = (AnchorPane) loader.load();
+			main.getDetails().setCenter(investmentFund);
+
+			InvestmentFundOverviewController controller = loader.getController();
 			controller.setMain(main);
 
 		} catch (IOException e) {

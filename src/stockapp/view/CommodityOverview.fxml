@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stockapp.view.CommodityOverviewController">
+   <children>
+      <SplitPane dividerPositions="0.19874804381846636" layoutX="223.0" layoutY="129.0" prefHeight="700.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <TableView fx:id="commodityTable" layoutX="50.0" layoutY="109.0" prefHeight="698.0" prefWidth="250.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columns>
+                      <TableColumn fx:id="commodityColumn" prefWidth="75.0" text="Commodity" />
+                    </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <VBox layoutX="269.0" layoutY="121.0" prefHeight="698.0" prefWidth="1020.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="20.0">
+                     <children>
+                        <GridPane>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="917.0" minWidth="10.0" prefWidth="917.0" />
+                              <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="417.0" minWidth="10.0" prefWidth="83.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <Label fx:id="commodityName" contentDisplay="CENTER" prefHeight="43.0" prefWidth="250.0" text="Commodity name">
+                                 <font>
+                                    <Font name="Bernard MT Condensed" size="34.0" />
+                                 </font>
+                              </Label>
+                              <Button mnemonicParsing="false" onAction="#deleteCommodity" text="Delete" GridPane.columnIndex="1" />
+                           </children>
+                        </GridPane>
+                        <LineChart fx:id="linechart">
+                          <xAxis>
+                            <CategoryAxis side="BOTTOM" fx:id="x" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis fx:id="y" side="LEFT" />
+                          </yAxis>
+                        </LineChart>
+                        <GridPane>
+                          <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="Measurement Unit" GridPane.rowIndex="1" />
+                              <Label text="Currency" GridPane.rowIndex="2" />
+                              <Label text="Current price" GridPane.columnIndex="2" />
+                              <Label text="Minimal price" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                              <Label text="Maximal price" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                              <Label fx:id="measurementUnit" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Label fx:id="currency" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Label fx:id="currentPrice" text="Label" GridPane.columnIndex="3" />
+                              <Label fx:id="minimalPrice" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                              <Label fx:id="maximalPrice" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                           </children>
+                        </GridPane>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

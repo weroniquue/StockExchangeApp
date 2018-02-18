@@ -20,6 +20,11 @@ public class AddInvestmentFundController {
 	private Main main;
 	private Stage stage;
 	
+	public AddInvestmentFundController() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	
 	public void setStage(Stage stage) {
 		this.stage=stage;
 	}
@@ -38,8 +43,18 @@ public class AddInvestmentFundController {
 			tmp.setNameInvestmentFound(nameInvestmentFund.getText());
 			tmp.setNameManager(nameManager.getText());
 			tmp.setSecondNameManager(secondNameManager.getText());
+			tmp.setMain(main);
 			
 			main.getInvestmentFundData().add(tmp);
+			
+			stage.close();
+
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.initOwner(main.getPrimaryStage());
+			alert.setTitle("Completed");
+			alert.setHeaderText("Invstment Fund added");
+
+			alert.showAndWait();
 		}
 	}
 	

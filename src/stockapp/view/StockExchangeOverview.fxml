@@ -95,12 +95,12 @@
                                                 <Insets left="50.0" right="50.0" />
                                              </VBox.margin>
                                           </GridPane>
-                                          <LineChart prefHeight="386.0" prefWidth="736.0">
+                                          <LineChart fx:id="linechart" prefHeight="386.0" prefWidth="736.0">
                                             <xAxis>
-                                              <CategoryAxis side="BOTTOM" />
+                                              <CategoryAxis side="BOTTOM" fx:id="x" />
                                             </xAxis>
                                             <yAxis>
-                                              <NumberAxis side="LEFT" />
+                                              <NumberAxis fx:id="y" side="LEFT" />
                                             </yAxis>
                                           </LineChart>
                                           <ListView fx:id="listCompany" prefHeight="200.0" prefWidth="200.0" />

@@ -5,6 +5,7 @@ import java.io.File;
 import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
 import stockapp.Main;
+import stockapp.model.Company;
 
 public class RootLayoutController {
 	private Main main;
@@ -13,28 +14,39 @@ public class RootLayoutController {
 		this.main = main;
 	}
 
+	/**
+	 * This clear all data in app.
+	 * */
 	@FXML
 	private void handleNew() {
+		for (Company  company: main.getCompanyData()) {
+			company.setStart(false);
+		}
 		main.getCompanyData().clear();
 		main.getCurrencyData().clear();
+		main.getCommodityData().clear();
 		main.getIndexData().clear();
 		main.getStockExchangeData().clear();
 		main.getInvestorData().clear();
 		main.getInvestmentFundData().clear();
 		
+		
 		main.setFilePath(null);
 	}
 
+	
+	/**Sava data in file.*/
 	@FXML
 	private void handleSave() {
 		File file=main.getfilePath();
 		if(file!=null) {
 			main.saveDataToFile(file.getAbsolutePath());
 		}else {
-			handleSave();
+			handleSaveAs();
 		}
 	}
 
+	/**User can choose the file, where the program can save data.*/
 	@FXML
 	private void handleSaveAs() {
 		FileChooser fileChooser = new FileChooser();
@@ -52,6 +64,7 @@ public class RootLayoutController {
 		}
 	}
 	
+	/**It allows to open save data in file.*/
 	@FXML
 	private void handleOpen() {
 		FileChooser fileChooser = new FileChooser();

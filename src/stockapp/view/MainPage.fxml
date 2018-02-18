@@ -55,11 +55,6 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="273.0" prefWidth="276.0" text="Button">
-                     <effect>
-                        <DropShadow color="#401b1b" />
-                     </effect>
-                  </Button>
                   <Button alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" prefHeight="276.0" prefWidth="271.0" text="Info" textFill="#861616">
                      <effect>
                         <DropShadow color="#401b1b" />

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
@@ -30,10 +33,12 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <GridPane layoutX="56.0" layoutY="122.0" prefHeight="468.0" prefWidth="415.0">
+                  <GridPane layoutX="42.0" layoutY="538.0" prefHeight="152.0" prefWidth="765.0">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="293.0" minWidth="10.0" prefWidth="188.0" />
-                        <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="389.0" minWidth="10.0" prefWidth="227.0" />
+                        <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="389.0" minWidth="10.0" prefWidth="201.0" />
+                        <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="389.0" minWidth="10.0" prefWidth="201.0" />
+                        <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="389.0" minWidth="10.0" prefWidth="201.0" />
                      </columnConstraints>
                      <rowConstraints>
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -42,11 +47,6 @@
                         <RowConstraints maxHeight="90.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints maxHeight="76.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints maxHeight="64.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
                         <Label />
@@ -62,28 +62,28 @@
                         </Label>
                         <Label text="Minimum price" GridPane.rowIndex="3" />
                         <Label text="Number of stock" GridPane.rowIndex="4" />
-                        <Label text="Profit" GridPane.rowIndex="5" />
+                        <Label text="Profit" GridPane.columnIndex="2" />
                         <Label text="Date of first valuation">
                            <font>
                               <Font size="17.0" />
                            </font>
                         </Label>
-                        <Label text="Income" GridPane.rowIndex="6" />
-                        <Label text="Equital capital" GridPane.rowIndex="7" />
-                        <Label text="Initial capital" GridPane.rowIndex="8" />
-                        <Label text="Turnover" GridPane.rowIndex="10" />
-                        <Label text="Volume" GridPane.rowIndex="9" />
+                        <Label text="Income" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <Label text="Equital capital" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <Label text="Initial capital" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                        <Label text="Turnover" GridPane.rowIndex="5" />
+                        <Label text="Volume" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                         <Label fx:id="dateOfFirstValuationLabel" text="Label" GridPane.columnIndex="1" />
                         <Label fx:id="openiningPriceLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Label fx:id="currentPriceLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <Label fx:id="minimumPriceLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <Label fx:id="numberOfStockLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <Label fx:id="profitsLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                        <Label fx:id="incomeLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                        <Label fx:id="equitalCapitalLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                        <Label fx:id="initialCapitalLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                        <Label fx:id="volumeLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-                        <Label fx:id="assetsTurnoverLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                        <Label fx:id="profitsLabel" text="Label" GridPane.columnIndex="3" />
+                        <Label fx:id="incomeLabel" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <Label fx:id="equitalCapitalLabel" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                        <Label fx:id="initialCapitalLabel" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                        <Label fx:id="volumeLabel" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                        <Label fx:id="assetsTurnoverLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                      </children>
                   </GridPane>
                   <GridPane layoutX="26.0" layoutY="42.0" prefHeight="45.0" prefWidth="779.0">
@@ -98,17 +98,24 @@
                      <children>
                         <ButtonBar minHeight="-Infinity" minWidth="-Infinity" prefHeight="47.0" prefWidth="163.0" GridPane.columnIndex="2">
                            <buttons>
-                              <Button mnemonicParsing="false" onAction="#deleteCompany" text="Remove" />
-                              <Button mnemonicParsing="false" text="Edit" />
+                              <Button mnemonicParsing="false" onAction="#deleteCompany" text="Delete" />
                            </buttons>
                         </ButtonBar>
-                        <Label fx:id="companyNameLabel" prefHeight="53.0" prefWidth="436.0" text="Company name" textFill="#751717">
+                        <Label fx:id="companyNameLabel" prefHeight="48.0" prefWidth="436.0" text="Company name" textFill="#751717">
                            <font>
                               <Font size="36.0" />
                            </font>
                         </Label>
                      </children>
                   </GridPane>
+                  <LineChart fx:id="linechart" layoutX="30.0" layoutY="106.0" prefHeight="368.0" prefWidth="772.0">
+                    <xAxis>
+                      <CategoryAxis side="BOTTOM" fx:id="x" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis fx:id="y" prefWidth="32.0" side="LEFT" />
+                    </yAxis>
+                  </LineChart>
                </children>
             </AnchorPane>
         </items>
